@@ -120,50 +120,43 @@ Distance sampling; spatial modelling; generalized additive models; Poisson proce
 [[ need to cite spatial modelling workshop -- Len has a paper on this with Lindesay?]]
 [[This intro doesn't seem quite right, I want to build it from a spatial modelling rather than distance point of view. I'm open to other approaches though.]]
 
-When surveying biological populations it is increasingly common to record spatially referenced data; for example simply collecting coordinates which can then be used to include information from a GIS. Mapping the spatial distribution of a population can be extremely useful for practitioners, especially when communicating results to non-experts. Spatial models allow for the vast databases of GIS data to be harnessed, allowing for interactions between environmental covariates and population densities to be investigated; including spatial covariates into the model (for example, latitude and longitude) can account for spatial autocorrelation. Advances in spatial modelling over the past 25 years have made the process of creating such maps relatively easy (CITE). 
+When surveying biological populations it is increasingly common to record spatially referenced data; for example simply collecting coordinates which can then be used to include information from a GIS. Mapping the spatial distribution of a population can be extremely useful for practitioners, especially when communicating results to non-experts. Spatial models allow for the vast databases of GIS data to be harnessed, allowing for interactions between environmental covariates and population densities to be investigated; including spatial covariates into the model (for example, latitude and longitude) can account for spatial autocorrelation. Recent advances in both methodology and software have made spatial modelling a relatively painless process (CITE Simon mgcv paper, INLA paper? Other stuff?).
 
 [[Useful in impact assessment -- cite some papers, cite strip transect thing from Kris]]
 
-This article concerns combining spatial modelling techniques with distance sampling (CITE IDS, ADS). Distance sampling enables imperfect detection to be modelled, this is especially useful when surveys take place on boats or planes. This is achieved by recording distances to objects while observers walk(/steam/fly) along transect centrelines or standing at points (as opposed to simply counting). Distance sampling is concerned with estimating density by calculating the \textit{effective area} of a line or point transect survey. The effective area is derived from a \textit{detection function} ($g(x)$) which models the decrease in detectability with increasing distance from the line or point. The detection function may also include animal/observer specific covariates (CITE MCDS paper). The parameters of the detection function are estimated via maximum likelihood, once estimated the detection function is integrated to find the \textit{effective strip half-width} ($\mu$) or \textit{effective area of detection} ($\nu$) in the line and point cases respectively:
+This article concerns combining spatial modelling techniques with distance sampling (CITE IDS, ADS). Distance sampling takes simple strip sampling and extends it to the case where detection is not certain, this is especially useful when surveys take place on boats or planes. This is achieved by recording distances to objects while observers walk/steam/fly along transect centrelines or standing at points, rather than simply counting the number of individuals. Distance sampling is concerned with estimating density by calculating the \textit{effective area} of a line or point transect survey. The effective area is derived from the \textit{detection function} ($g(y)$) which models the decrease in detectability with increasing distance from the line or point. The detection function may also include animal/observer specific covariates (CITE MCDS paper). The parameters of the detection function are estimated via maximum likelihood. Once estimated the detection function ($\hat{g}(y)$) is integrated to find the \textit{effective strip half-width} ($\mu$) or \textit{effective area of detection} ($\nu$) in the line and point cases respectively:
 \begin{eqnarray*}
-\mu = \int_0^w g(x) \text{d}x \qquad \text{for line transects},\\
-\nu = 2\pi r \int_0^w r g(r) \text{d}r \qquad \text{for point transects}.
+\hat{\mu} = \int_0^w \hat{g}(x) \text{d}x \qquad \text{for line transects},\\
+\hat{\nu} = 2\pi r \int_0^w r \hat{g}(r) \text{d}r \qquad \text{for point transects}.
 \end{eqnarray*}
-Here $x$ and $r$ are perpendicular and radial distance respectively and $w$ is the truncation distance (after which observations are discarded).
+Here $x$ and $r$ are perpendicular and radial distance respectively and $w$ is the truncation distance (the distance after which observations are discarded).
 
 
+Usually in a distance sampling analysis one assumes that the objects of interest are distributed at random with respect to the lines or points (Buckland 2001, SECTION) according to some homogeneous process (though this does not necessarily have to be a Poisson process; Buckland (2001), Chapter 3). This means objects' locations are not dependent on any spatially varying covariates (such as location, distance from coast, depth, etc) so with respect to the line the objects are distributed uniformly. This assumption is perfectly acceptable when the survey can be designed so that it holds (for example, ensuring that transect lines run perpendicular to geographical features that would attract or repel animals). However, as discussed above, this is not always the case. It may also be desirable to include spatially varying covariates in the model as proxies for other biological processes which cannot be measured. Hedley and Buckland (2004) were the first to address spatial modelling of distance sampling data, allowing for a relaxation of the homogeneity of the point process, giving a rate parameter which is a function of spatially varying covariates. Thinking of the underlying placement of the objects as an inhomogeneous point process allows us to think of the detection process as a ``thinning'' (Cox and Isham, SECTION) of the process, leading to another inhomogeneous point process. By assuming that the object placement and detection processes are independent, it is possible to separate out these two processes in the likelihood.
 
-[[Some surveys that are not designed, tourist stuff, cite Rob Williams' paper on this]]
+Modelling the spatial process not only permit the use of GIS and other spatial data, it also gives practitioners the freedom to use data from non-designed surveys. For example ``incidental'' data arising from ``ecotourism'' cruises can be included in analyses (CITE Rob Williams paper on this).
 
-Usually in a distance sampling analysis one assumes that the objects of interest are distributed at random with respect to the lines or points (Buckland 2001, SECTION) according to some homogeneous process (though this does not necessarily have to be a Poisson process; Buckland (2001), Chapter 3). Simply put, the objects' locations are not dependent on any spatially varying covariates (such as location, distance from coast, weather conditions etc) so with respect to the line the objects are distributed uniformly. This assumption is perfectly acceptable when the survey can be designed so that it holds (for example, ensuring that transect lines run perpendicular to geographical features that would attract or repel animals). However, as discussed above, this is not always the case. It may also be desirable to include spatially varying covariates in the model as proxies for other biological processes which cannot be measured. Hedley and Buckland (2004) were the first to address spatial modelling of distance sampling data, allowing for a relaxation of the homogeneity of the point process, giving a rate parameter which is a function of spatially varying covariates. Thinking of the underlying placement of the objects as an inhomogeneous point process allows us to think of the detection process as a ``thinning'' (Cox and Isham, SECTION) of the process, leading to another inhomogeneous point process. By assuming that the object placement and detection processes are independent, it is possible to separate out these two processes in the likelihood.
-
-Modelling the spatial process not only permit the use of GIS and other spatial data, it also gives practitioners the freedom to use data from non-designed surveys. For example ``incidental'' data arising from ``ecotourism'' cruises can be included in analyses.
-
-From this description, two modelling procedures arise. One approach is to directly model the point process, estimating the observation process as the thinning of that point process (Johnson, Laake and ver Hoef (2010); Niemi and Fern\'andez (2010)). A second a pproach consists of performing the usual distance analysis and then using the results from this to build a spatial model (Hedley and Buckland (2004)). We briefly describe two methods which take the former approach in the next section but note that these approaches are recent (and therefore have not yet been widely tested) and that typically the loss of efficiency in using the two-stage approach of Hedley and Buckland (2004) (described in detail in section \ref{s:dsm}) is not great (Buckland et al. 2004, p. 313). Other recent advances in the methodology are covered in section \ref{s:recentadvances}. Section \ref{s:practical} gives some practical advice and tips for analysing spatial distance sampling data before applying all of these to a data set on [[which data set??]] in section \ref{s:data}. Finally, section \ref{s:discussion} summarizes the material set out here as well as looking at future directions of research.
+From this point process description, two modelling procedures arise. One approach is to directly model the point process, estimating the observation process as the thinning of that point process (Johnson, Laake and ver Hoef (2010); Niemi and Fern\'andez (2010)). A second approach consists of performing the usual distance analysis and then using the results from this to build a spatial model (Hedley and Buckland (2004)). We briefly describe two methods which take the former approach in the next section but note that these approaches are recent (and therefore have not yet been widely tested) and that typically the loss of efficiency in using the two-stage approach of Hedley and Buckland (2004) (described in detail in section \ref{s:dsm}) is not great (Buckland et al. 2004, p. 313). Other recent advances in the methodology are covered in section \ref{s:recentadvances}. Section \ref{s:practical} gives some practical advice and tips for analysing spatial distance sampling data before applying all of these to a data set on [[which data set??]] in section \ref{s:data}. Finally, section \ref{s:discussion} summarizes the material set out here as well as looking at future directions of research.
 
 \section{Direct modelling of the process}
 \label{s:direct}
 
 [[these two paragraphs seem a bit dense at the moment]]
 
-Johnson, Laake and ver Hoef (2010) propose ... (henceforth referred to as DSpat) They first assume that the locations of all individuals in the survey area (not just those which were observed) are a realisation of an inhomogeneous Poisson process with intensity function $\lambda(x,y,\bm{\eta})$ (where $x$ and $y$ are coordinates, as above and $\bm{\theta}$ are the parameters of the intensity function). The authors then take the novel approach of allowing for separate (disjoint) regions of the survey area to have different detection functions associated with them. The sum of these detection functions ($q(x,y,\bm{\theta}) = \sum_k g_k(x,\theta_k)$) is then used as a thinning of the Poisson process (so the intensity function of the thinned process is $q(x,y,\bm{\theta})\lambda(x,y,\bm{\eta})$). The parameters are then found via standard maximum likelihood methods for point process. From the fitted model two different estimates of abundance can be found. First, by integrating the (unthinned) intensity function over the some arbitrary region (which includes the survey area) the so-called \textit{expected abundance} can be calculated; second, the \textit{realized abundance} can be found by generating a realization from a Poisson process with corresponding intensity function. Variance for the expected abundance can be found using the delta method; in contrast to the methods above, the parameters are estimated jointly so uncertainty is incorporated. Concurrent estimation of the parameters also ensures that interactions between the thinning and underlying point process are estimated correctly. The authors also address the issue of overdispersion -- that is small-scale variation in the intensity function which is unmodelled by spatial covariates. This overdispersion can be modelled by a Cox process (Cox, 1955) although the authors do not take this option due to the computationally intensive nature of fitting such models. Instead they calculate an overdispersion factor which allows the estimated variance to be appropriately inflated.
+Johnson, Laake and ver Hoef (2010) propose a point process-based model for distance sampling data (henceforth referred to as DSpat). They first assume that the locations of all individuals in the survey area (not just those which were observed) are a realisation of an inhomogeneous Poisson process with intensity function $\lambda(x,y,\bm{\eta})$ (where $x$ and $y$ are coordinates and $\bm{\theta}$ contains the parameters of the intensity function). The authors then take the novel approach of allowing for separate (disjoint) regions of the survey area to have different detection functions associated with them. The sum of these detection functions ($q(x,y,\bm{\theta}) = \sum_k g_k(x,\theta_k)$) is then used as a thinning of the Poisson process (so the intensity function of the thinned process is $q(x,y,\bm{\theta})\lambda(x,y,\bm{\eta})$). The parameters are then found via standard maximum likelihood methods for point processes. From the fitted model two different estimates of abundance can be found. First, by integrating the (unthinned) intensity function over the some arbitrary region (which includes the survey area) the so-called \textit{expected abundance} can be calculated; second, the \textit{realized abundance} can be found by generating a realization from a Poisson process with corresponding intensity function. Variance for the expected abundance can be found using the delta method (Seber, 1982); in contrast to the methods above, the parameters are estimated jointly so uncertainty is incorporated. Concurrent estimation of the parameters also ensures that interactions between the thinning and underlying point process are estimated correctly. The authors also address the issue of overdispersion -- that is small-scale variation in the intensity function which is unmodelled by spatial covariates. This overdispersion can be modelled by a Cox process (Cox, 1955) although the authors do not take this option due to the computationally intensive nature of fitting such models. Instead they calculate an overdispersion factor which allows the estimated variance to be appropriately inflated.
 
-Niemi and Fern\'andez (2010) also use Poisson processes, although they use a fully Bayesian approach. Their intensity function takes the form of a product of a parametric function of the covariates and a mixture of Gaussian kernels as a spatial smooth (with Gamma weights). By putting prior distributions on the number and locations of the ``knots'' of the spatial smooth (means of the Gaussian), as well as the precision and using the RJMCMC algorithm (Green, 1996), an appropriate degree of smoothing could be selected. However, since in their formulation the authors only consider a single precision parameter for all of the kernels, both small and large scale variation cannot both be accommodated. As in the above approach the detection function was used as a thinning of the process, although (unlike Johnson et al, 2010) only one detection function was used across the whole region with known parameters. This means that unlike DSpat (and similar to the count model, above), the uncertainty in the detection function is not incorporated in the model -- making this a two-stage approach.
-
+Niemi and Fern\'andez (2010) also use Poisson processes, although they use a fully Bayesian approach. Their intensity function takes the form of a product of a parametric function of the covariates and a mixture of Gaussian kernels as a spatial smooth (with Gamma weights). An appropriate degree of smoothing could be selected by putting prior distributions on the number and locations of the ``knots'' of the spatial smooth (the means of the Gaussian kernels) and then using the RJMCMC algorithm (Green, 1996). However, since in their formulation the authors only consider a single precision parameter for all of the kernels, small and large scale variation cannot both be accommodated. As in the above approach the detection function was used as a thinning of the process, although (unlike DSpat) only one detection function was used across the whole region with known parameters. This means that unlike DSpat (and similar to the count model, above), the uncertainty in the detection function is not incorporated in the model.
 
 Both of the above Poisson process models do not account for group size, both stating that this could be included by considering a marked ([[CITE]]) point process.
 
+[[Say something general here about how these methods are fine but there is a more work being done with DSM, and although they offer an ``integrated'' approach, they both are not completely satisfactory.]]
 
 \section{Density surface modelling}
 \label{s:dsm}
 
-[[TKTKTK more here on why this makes sense!! in particular the offset before going into the model details, big picture stuff]]
+Hedley and Buckland (2004) pioneered spatial modelling of distance sampling data, we refer to their approach as \textit{density surface modelling} (DSM). This approach is incorporated into the popular software package Distance (Thomas et al, 2010). Rather than modelling the point process directly, DSM is based a spatial model for the survey area using the counts, abundance or observation density [[cut this if we don't talk about density estimation]] as response. The principle is simple: just as CDS and MCDS extend strip transect sampling to the case where detection is not guaranteed, DSM extends a spatial model for strip transects.
 
-Hedley and Buckland (2004) pioneered spatial modelling of distance sampling data, we refer to their approach as \textit{density surface modelling}. DSM is one of the most widely used methods as it is incorporated into the Distance software (Thomas et al, 2010). Rather than modelling the point process directly, DSM is based a spatial model for the survey area using the counts, abundance or observation density as response. The principle is simple: just as CDS and MCDS extend strip transect sampling to the case where detection is not guaranteed, DSM extends a spatial model for strip transects.
-
-Having performed a strip transect survey, the strips are divided into contiguous \textit{segments} (indexed by $j$), which are of length $s_j$; small enough such that the density does not vary a lot in the segment. For each of these segments the number of observations ($n_j$) is the response.
-
-This count can then be modelled as a function of spatial and environmental covariates (the $\mathbf{z}_{jk}$ for $k$ indexing the covariates: e.g. location, sea surface temperature, weather conditions) using a generalized linear (GLM; McCullagh and Nelder, 1989) or generalized additive model (GAM; e.g. Wood, 2006; Ruppert, Wand and Carroll, 2003). A GAM is used here for exposition, since the framework is more general. The effort enters the model as an offset (the area of the segment $A_j = 2ws_j$). For strip transects, we can write the model as:
+Thinking on about conducting a strip transect survey for now, strips are divided into contiguous \textit{segments} (indexed by $j$), which are of length $s_j$; small enough such that the density does not vary a lot in the segment. For each of these segments the number of observations ($n_j$) is the response. This count can then be modelled as a function of spatial and environmental covariates (the $\mathbf{z}_{jk}$ for $k$ indexing the covariates: e.g. location, sea surface temperature, weather conditions) using a generalized linear (GLM; McCullagh and Nelder, 1989) or generalized additive model (GAM; e.g. Wood, 2006; Ruppert, Wand and Carroll, 2003). A GAM is used here for exposition, since the framework is more general. The effort enters the model as an offset (the area of the segment $A_j = 2ws_j$). For strip transects, we can write the model as:
 \begin{equation}
 \mathbb{E}(n_j) = \exp\left[ \log_e A_j + \beta_0 + \sum_k f_k\left(\bm{z}_{jk}\right) \right],
 \label{e:stripgam}
@@ -172,7 +165,9 @@ where the $f_k$s are smooth functions of the covariates in the GAM case (but cou
 
 \subsection{DSM with covariates at the segment/point level}
 
-Moving on to distance sampling data, by replacing $A_j$ by $A_j\hat{P_a}(\mathbf{z}_j)$ in (\ref{e:stripgam}), making the offset the effective area. Modelling then operates in two stages, first a detection function is fitted to the distance data to obtain $\hat{P_a}(\mathbf{z}_j)$, the following spatial model is then fitted:
+[[more here on why this makes sense? Offset details?]]
+
+If distances rather than counts are recorded, we replace $A_j$ by $A_j\hat{P_a}(\mathbf{z}_j)$ in (\ref{e:stripgam}), making the offset the effective area. Modelling then operates in two stages, first a detection function is fitted to the distance data to obtain $\hat{P_a}(\mathbf{z}_j)$, the following spatial model is then fitted:
 \begin{equation}
 \mathbb{E}(n_j) = \exp\left[ \log_e A_j\hat{P_a}(\mathbf{z}_j) + \beta_0 + \sum_k f_k\left(\bm{z}_{jk}\right) \right],
 \label{e:gamn}
@@ -181,7 +176,7 @@ This formulation can also be used for point transects by setting $A_j=w\pi^2$, $
 \begin{equation*}
 \mathbb{E}(n_j) = \exp\left[ \log_e A_j \hat{P_a}(\mathbf{z}_j) + \beta_0 + f_\text{space}\left(x_j,y_j\right) + \sum_k f_k \left(\bm{z}_{jk}\right) \right],
 \end{equation*}
-where $(x_j,y_j)$ gives the centroid of the corresponding segment or point and $f_\text{space}$ is a smooth function of space; basis choice for spatial smooths is covered in Section \ref{s:leakage}.
+where $(x_j,y_j)$ is the centroid of the $j^\text{th}$ segment or point and $f_\text{space}$ is a smooth function of space; basis choice for spatial smooths is covered in Section \ref{s:leakage}.
 
 \subsection{DSM with covariates at the individual level}
 
@@ -197,8 +192,6 @@ from there, for the multiple covariate case it is simply a case of estimating $\
 \end{equation*}
 which can be used as the response in (\ref{e:gamN}). 
 
-Hedley and Buckland (2004) show that this two-step procedure is reliable and gives reasonable results. [[ Some more waffle here]]
-
 [[is it necessary to talk about modelling density as the response here, I've not seen much on this I guess we could include it for completeness...]]
 
 
@@ -207,25 +200,30 @@ Hedley and Buckland (2004) show that this two-step procedure is reliable and giv
 
 Variance estimation for DSM is rather tricky since uncertainty from the estimated parameters of the detection function must be incorporated into the smooth. A second consideration is that in a line transect survey, adjacent segments are likely to be highly correlated; failing to account for this spatial autocorrelation will lead to artificially low variance estimates and hence misleadingly narrow confidence intervals. The rest of this section showcases several approaches to variance estimation for DSM.
 
-[[Want to talk about this??: When the survey has been conducted using a platform of opportunity is especially difficult, since it is difficult to define transects in such situations.]]
-
 \subsubsection{Resampling-based methods}
 
 Hedley and Buckland (2004) describe a method of calculating the variance in the abundance estimates using a parametric bootstrap. Given we have a fitted model (denoted $\hat{f}$), denote the fitted values (one per segment) $\hat{\bm{\eta}}$ (this could be counts, estimated abundances or densities, as discussed above) and the per-segment residuals as $\hat{\mathbf{r}}$. The bootstrap then follows the following steps:
 
 [[Not sure how best to format this; I realise that there are some ordering assumptions here -- adding them in makes this \textit{way} more complicated, can I just state that we keep track of this?; better notation?]]
-For $i=1,\ldots,B$ (where $B$ is the number of resamples required):
+
+[[Again here we're talking about line transects, I'm not even totally sure how this would work in a point transect case...]]
+
+[[ADDITIONALLY: this is not actually what happens in DSM at the moment, we discard the transect information and just resample the blocks/segments. I think that this is probably okay for the residuals but for the counts (further down) this will screw up the overall spatial pattern. What do you think?]]
+
+[[Is the delta method well known enough to just cite it or is it worth putting something in the appendix about it?]]
+
+For $b=1,\ldots,B$ (where $B$ is the number of resamples required):
 \begin{enumerate}
 	\item Initialize $\hat{\bm{\eta}}$ as an empty vector.
 	\item Within each transect $k=1,\ldots,K$ (if there are $K$ transects):
 	\begin{enumerate}
-		\item Resample (with replacement) the per-segment residuals corresponding to transect $k$, store the values in $\mathbf{r}_{ik}$.
+		\item Resample (with replacement) the per-segment residuals corresponding to transect $k$, store the values in $\mathbf{r}_{bk}$.
 		\item Append $\hat{\bm{\eta}}_{k}+\mathbf{r}_{ik}$ (where $\hat{\bm{\eta}}_{k}$ are the fitted values corresponding to this transect) to $\hat{\bm{\eta}}$.
 	\end{enumerate}
-	\item Refit the model to the data with the response values replaced by the corresponding entried in $\hat{\bm{\eta}}$.
+	\item Refit the model to the data with the response values replaced by the corresponding entries in $\hat{\bm{\eta}}$.
 	\item Take the predicted values for the new model and store them.
 \end{enumerate}
-From the predicted values stored in the last step, the per-location and abundance variance can be calculated in the usual manner. This variance estimate from the bootstrap procedure is then combined with the variance of the abundance from the detection function model (i.e. the variance of the effective strip width) via the delta method (Seber 1982 or cite from DSPat paper) to obtain an overall variance estimate. As discussed above, the assumption here is that the two components of the variance are independent and the method does not not take into account spatial autocorrelation.
+From the predicted values stored in the last step, the per-location and abundance variance can be calculated in the usual manner. This variance estimate from the bootstrap procedure is then combined with the variance of the abundance from the detection function model (i.e. the variance of the effective strip width) via the delta method (Seber, 1982 or cite from DSPat paper) to obtain an overall variance estimate. As discussed above, the assumption here is that the two components of the variance are independent and the method does not not take into account spatial autocorrelation (since the individual segments are treated as independent).
 
 The above procedure assumes that there is no correlation in space between segments and they can be swapped around within each transect. Clearly if many animals are observed in a segment then we would expect there to be a relatively high level in the next segment (especially since the segments are defined after the survey). To take into account spatial autocorrelation a moving block bootstrap (MBB) can be employed. The segments are grouped together into $b$ overlapping blocks, (so if the block size is 5, block one is segments $1,\ldots,5$, the second block is segments $2,\ldots,6$, and so on). Then, at step (1)(a) above, resamples are taken of the blocks within each transect (i.e. groups of segments together) rather than individual segments within the transects. Using blocks should account for some of the autocorrelation between the segments, inflating the variances accordingly.
 
@@ -240,27 +238,26 @@ The methods detailed above account only for variability in the spatial part of t
 
 Non-parametric moving block bootstrap incorporating detection function uncertainty...
 
-For $i=1,\ldots,B$ (where $B$ is the number of resamples required):
+For $b=1,\ldots,B$ (where $B$ is the number of resamples required):
 \begin{enumerate}
-
+	\item Initialize $\mathbf{n}_b$ as an empty vector.
 	\item Within each transect $k=1,\ldots,K$ (if there are $K$ transects):
 	\begin{enumerate}
-		\item Resample (with replacement) the blocks in transect $k$.
-		\item Store the corresponding observations.
+		\item Resample (with replacement) the per-segment counts corresponding to transect $k$ on block-wise basis. Append these to $\mathbf{n}_b$.
 	\end{enumerate}
-	\item Refit the detection function (with the same form as in the original analysis, although with adjustment term selection via AIC if necessary).
-	\item Use the effective strip width or estimated abundance to fit a spatial model to the data.
+	\item Generate a new set of distances from the fitted detection function for each count in $\mathbf{n}$.
+	\item Refit the detection function to the new distance data, to obtain a new $\bm{\hat{\mu}}$.
+	\item Refit the spatial model to the new count data ($\mathbf{n}_b$) and using the new $\bm{\hat{\mu}}$ to create an offset.
 	\item Take the predicted values for the new model and store them.
 \end{enumerate}
 
 
+
 \subsubsection{Integrated approaches}
 
-Rather than using the (rather time-consuming) bootstrap methods above, it would be nice to be able to calculate the variance without having to refit the model many times.
+[[Might well be worth noting here that there is an error in the paper and that this is the correct version of how this works? Rob has submitted a correction to the journal.]]
 
-[[something general here]]
-
-In contrast to the bootstrap methods above, Williams et al (2011) use a rather neat trick to incorporate the uncertainty in the estimation of the detection function into the variance of the spatial model, albeit only in the case where covariates are measure at a point/segment level only. The authors restate (\ref{e:gamn}) as:
+Rather than using the (rather time-consuming) bootstrap methods above, it would be nice to be able to calculate the variance without having to refit the model many times. Williams et al (2011) use a rather neat trick to incorporate the uncertainty in the estimation of the detection function into the variance of the spatial model, albeit only in the case where covariates are measure at a point/segment level only. The authors restate (\ref{e:gamn}) as:
 \begin{equation}
 \mathbb{E}(n_j) = \exp\left[ \log_eA_j + \log_e \hat{P_a}(\bm{\theta} - \bm{\gamma}; \mathbf{z}_j) + \beta_0 + \sum_k f_k\left(\bm{z}_{jk}\right) \right],
 \label{e:gamnre1}
@@ -271,8 +268,13 @@ where $\bm{\gamma} = \bm{\theta} - \bm{\hat{\theta}}$ ($\bm{\hat{\theta}}$ being
 \end{equation*}
 (by the definition of a derivative). The derivative term can then be thought of as a random effect with associated parameter $\bm{\gamma}$, where $\bm{\gamma} \sim \text{MVN}(\bm{0}, -\bm{H_{\hat{\theta}}}^{-1})$ (where $\bm{H_{\hat{\theta}}}$ is the Hessian at $\bm{\hat{\theta}}$, taken from the optimisation of the detection function). Fitting a model with this formulation, the uncertainty in the detection function parameters can be included in the total variance estimates for the model.
 
+[[this is in Sharon and Mark's package varprop and I've hacked together a version for dsm that is in the repo at the moment. Not sure whether I can spur Mark and Sharon into action to fix the bugs I found or wether to just say that we have a version in dsm (and credit them)]]
+
 \subsection{Comparison of DSM methods}
 
+[[ do a summary here? Compatibility table for the variance methods? As in distance manual? Drawbacks/advantages?]]
+
+[[might the table be better as a flow diagram -- which Lego bits plug into which others?]]
 
 \begin{table}[htbp]
 \centering
@@ -290,7 +292,6 @@ Count ($\hat{n}_j$) & Effective $A_j\hat{P_a}(\mathbf{z}_j)$ & None & $\log$ & q
 \label{soap-basis-table}
 \end{table}
 
-[[ do a summary here? Compatibility table for the variance methods? As in distance manual? Drawbacks/advantages?]]
 
 \subsection{Visualising uncertainty}
 
@@ -400,9 +401,11 @@ Mark Bravington, Sharon Hedley
 
 \section*{Supplementary Materials}
 
-Web Appendix A, referenced in Section~\ref{s:model}, is available 
-under the Paper Information link at the Biometrics website
-{\tt http://www.biometrics.tibs.org}.\vspace*{-8pt}
+[[talk about dsm, mrds, Distance here]]
+
+[data preparation stuff in appendix? -- will be on github]]
+
+Web Appendix A, referenced in Section~\ref{s:model}, is available under the Paper Information link at the Biometrics website {\tt http://www.biometrics.tibs.org}.\vspace*{-8pt}
 
 %  Here, we create the bibliographic entries manually, following the
 %  journal style.  If you use this method or use natbib, PLEASE PAY
