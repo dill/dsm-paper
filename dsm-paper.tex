@@ -93,10 +93,12 @@ Main points:
 \item review methods - Hedley and Buckland, Johnson et al, Niemi and Fernandez
 \item variance estimation
 \item case study 
+\item tips and tricks
 \item what's next/new?
 \end{itemize}
 
-Make a big deal about incorporating wisdom from the guys who actually use this stuff?
+Target journal: Methods in Ecology and Evolution, Journal of Applied Ecology ?
+
 \end{abstract}
 
 %  Please place your key words in alphabetical order, separated
@@ -212,6 +214,10 @@ Hedley and Buckland (2004) describe a method of calculating the variance in the 
 
 [[Is the delta method well known enough to just cite it or is it worth putting something in the appendix about it?]]
 
+[[Think we need to talk about per-point vs. $\text{var}(\hat{N})$ at the start here... Variance of an integral of the smooth...]]
+
+[[Need to talk about how big $B$ should be, as this is sure to be a question.]]
+
 For $b=1,\ldots,B$ (where $B$ is the number of resamples required):
 \begin{enumerate}
 	\item Initialize $\hat{\bm{\eta}}$ as an empty vector.
@@ -225,11 +231,11 @@ For $b=1,\ldots,B$ (where $B$ is the number of resamples required):
 \end{enumerate}
 From the predicted values stored in the last step, the per-location and abundance variance can be calculated in the usual manner. This variance estimate from the bootstrap procedure is then combined with the variance of the abundance from the detection function model (i.e. the variance of the effective strip width) via the delta method (Seber, 1982 or cite from DSPat paper) to obtain an overall variance estimate. As discussed above, the assumption here is that the two components of the variance are independent and the method does not not take into account spatial autocorrelation (since the individual segments are treated as independent).
 
-The above procedure assumes that there is no correlation in space between segments and they can be swapped around within each transect. Clearly if many animals are observed in a segment then we would expect there to be a relatively high level in the next segment (especially since the segments are defined after the survey). To take into account spatial autocorrelation a moving block bootstrap (MBB) can be employed. The segments are grouped together into $b$ overlapping blocks, (so if the block size is 5, block one is segments $1,\ldots,5$, the second block is segments $2,\ldots,6$, and so on). Then, at step (1)(a) above, resamples are taken of the blocks within each transect (i.e. groups of segments together) rather than individual segments within the transects. Using blocks should account for some of the autocorrelation between the segments, inflating the variances accordingly.
+The above procedure assumes that there is no correlation in space between segments and they can be swapped around within each transect. Clearly if many animals are observed in a segment then we would expect there to be a relatively high level in the next segment (especially since the segments are defined after the survey). A moving block bootstrap (MBB) can include some of the spatial autocorrelation in the variance estimation. The segments are grouped together into $b$ overlapping blocks, (so if the block size is 5, block one is segments $1,\ldots,5$, the second block is segments $2,\ldots,6$, and so on). Then, at step (1)(a) above, resamples are taken of the blocks within each transect (i.e. groups of segments together) rather than individual segments within the transects. Using blocks should account for some of the autocorrelation between the segments, inflating the variances accordingly.
 
 
 [[Most of this stuff is in their online appendix, not in the paper. Not sure how best to make this clear, as there is no mention of it in the paper at all; maybe move this paragraph to the practical advice section??]] 
-Williams, Hedley and Hammond (2006) use a non-parametric bootstrap resampling either days or trips from the survey such that the total segment length was approximately the same as that in the original survey. A model was then fitted to this resampled data with truncation distance, detection function parameters, an smooth terms (although not the degree of smoothing) held as for the original model. Repeating this 300 times then extracting the appropriate quantiles will give corresponding confidence intervals for the abundance. Additionally, the authors use a jackknife (CITE), removing one day (or trip, as above) in turn and refitting the model to the remaining data. Predictions from the fitted model could be used to calculate a variance and from that confidence intervals based on a log-normal assumption on the distribution of the abundance estimates (as suggested in Buckland et al. 2001). By calculating variances for both day and trip, the authors also propose an informal test of between-day correlation: if adjacent days are independent then the variance estimates for trip and day should be similar, on the other hand if the adjacent days are autocorrelated then it would be expected that the trip variance would be lower (and the confidence intervals tighter). This test could then be used to decide which of the two resampling units should be used to calculate the abundance variance (if there was evidence of autocorrelation then trip should be used). The authors also used the jackknife approach to create maps of the study area showing how the surface changed when different parts of the data were removed.
+Williams, Hedley and Hammond (2006) use a non-parametric bootstrap resampling either days or trips from the survey such that the total segment length was approximately the same as that in the original survey. A model was then fitted to this resampled data with truncation distance, detection function parameters and smooth terms (although not the degree of smoothing) held as for the original model. Repeating this 300 times then extracting the appropriate quantiles will give corresponding confidence intervals for the abundance. Additionally, the authors use a jackknife (CITE), removing one day (or trip, as above) in turn and refitting the model to the remaining data. Predictions from the fitted model could be used to calculate a variance and from that confidence intervals based on a log-normal assumption on the distribution of the abundance estimates (as suggested in Buckland et al. 2001). By calculating variances for both day and trip, the authors also propose an informal test of between-day correlation: if adjacent days are independent then the variance estimates for trip and day should be similar, on the other hand if the adjacent days are autocorrelated then it would be expected that the trip variance would be lower (and the confidence intervals tighter). This test could then be used to decide which of the two resampling units should be used to calculate the abundance variance (if there was evidence of autocorrelation then trip should be used). The authors also used the jackknife approach to create maps of the study area showing how the surface changed when different parts of the data were removed.
 
 The methods detailed above account only for variability in the spatial part of the model, not the uncertainty in the detection function. The above moving block bootstrap can be modified to take into account detection function uncertainty.
 
