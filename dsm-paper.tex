@@ -1,92 +1,36 @@
-%  template.tex for Biometrics papers
-%
-%  This file provides a template for Biometrics authors.  Use this
-%  template as the starting point for creating your manuscript document.
-%  See the file biomsample.tex for an example of a full-blown manuscript.
+\documentclass[a4paper,12pt]{article}
+\usepackage{jae}
+\usepackage{amsmath, bm, amsfonts}
 
-%  ALWAYS USE THE referee OPTION WITH PAPERS SUBMITTED TO BIOMETRICS!!!
-%  You can see what your paper would look like typeset by removing
-%  the referee option.  Because the typeset version will be in two
-%  columns, however, some of your equations may be too long. DO NOT
-%  use the \longequation option discussed in the user guide!!!  This option
-%  is reserved ONLY for equations that are impossible to split across 
-%  multiple lines; e.g., a very wide matrix.  Instead, type your equations 
-%  so that they stay in one column and are split across several lines, 
-%  as are almost all equations in the journal.  Use a recent version of the
-%  journal as a guide. 
-%  
-\documentclass[useAMS,referee]{biom}
-%documentclass[useAMS]{biom}
-%
-%  If your system does not have the AMS fonts version 2.0 installed, then
-%  remove the useAMS option.
-%
-%  useAMS allows you to obtain upright Greek characters.
-%  e.g. \umu, \upi etc.  See the section on "Upright Greek characters" in
-%  this guide for further information.
-%
-%  If you are using AMS 2.0 fonts, bold math letters/symbols are available
-%  at a larger range of sizes for NFSS release 1 and 2 (using \boldmath or
-%  preferably \bmath).
-% 
-%  Other options are described in the user guide. Here are a few:
-% 
-%  -  If you use Patrick Daly's natbib  to cross-reference your 
-%     bibliography entries, use the usenatbib option
-%
-%  -  If you use \includegraphics (graphicx package) for importing graphics
-%     into your figures, use the usegraphicx option
-% 
-%  If you wish to typeset the paper in Times font (if you do not have the
-%  PostScript Type 1 Computer Modern fonts you will need to do this to get
-%  smoother fonts in a PDF file) then uncomment the next line
-%  \usepackage{Times}
-\usepackage{amsmath,amssymb,latexsym}
-
-%%%%% PLACE YOUR OWN MACROS HERE %%%%%
-
-\def\bSig\mathbf{\Sigma}
-\newcommand{\VS}{V\&S}
-\newcommand{\tr}{\mbox{tr}}
-
-%  The rotating package allows you to have tables displayed in landscape
-%  mode.  The rotating package is NOT included in this distribution, but
-%  can be obtained from the CTAN archive.  USE OF LANDSCAPE TABLES IS
-%  STRONGLY DISCOURAGED -- create landscape tables only as a last resort if
-%  you see no other way to display the information.  If you do do this,
-%  then you need the following command.
-
-%\usepackage[figuresright]{rotating}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%  Here, place your title and author information.  Note that in 
-%  use of the \author command, you create your own footnotes.  Follow
-%  the examples below in creating your author and affiliation information.
-%  Also consult a recent issue of the journal for examples of formatting.
-
-\title[Spatial models for distance sampling]{Spatial models for distance sampling data: recent developments and future directions}
+\title{Spatial models for distance sampling data: recent developments and future directions}
+\running{Spatial models for distance sampling}
 
 \author{
-Louise Burt$^{*}$\email{louise@mcs.st-andrews.ac.uk},
-David L. Miller$^{**}$\email{dave@ninepointeightone.net}, 
-Eric Rexstad$^{***}$\email{ericr@mcs.st-andrews.ac.uk}, and 
-Len Thomas$^{****}$\email{len@mcs.st-andrews.ac.uk}.
-\\
-Centre for Research into Ecological and Environmental Modelling,\\ The Observatory, University of St. Andrews, St. Andrews KY16 9LZ, Scotland}
+David L. Miller$^{1*}$, \and
+Louise Burt$^{1}$, \and
+Eric Rexstad$^{1}$, \and 
+Len Thomas$^{1}$.}
+
+\affiliations{
+\item Centre for Research into Ecological and Environmental Modelling,\\ The Observatory, University of St. Andrews, St. Andrews KY16 9LZ, Scotland
+}
+\nwords{??}
+\ntables{?}
+\nfig{?}
+\nref{?}
+
+\corr{\url{dave@ninepointeightone.net}}
+
 
 \begin{document}
-\pagerange{\pageref{firstpage}--\pageref{lastpage}} 
-\volume{0}
-\pubyear{0000}
-\artmonth{Month}
-\doi{00.0000/j.0000-0000.0000.00000.x}
-\label{firstpage}
 
-%  put the summary for your paper here
+
+\maketitle
+
 
 \begin{abstract}
-Since the initial work by Hedley and Buckland, there have been many advances to the methodology for density surface modelling in distance sampling. This paper aims to put the advances of the past X years into one place and offer a comparison of the various options for the practitioner.
+  \noindent 
+  Since the initial work by Hedley and Buckland, there have been many advances to the methodology for density surface modelling in distance sampling. This paper aims to put the advances of the past X years into one place and offer a comparison of the various options for the practitioner.
 
 Main points:
 \begin{itemize}
@@ -96,403 +40,337 @@ Main points:
 \item tips and tricks
 \item what's next/new?
 \end{itemize}
-
-Target journal: Methods in Ecology and Evolution, Journal of Applied Ecology ?
-
 \end{abstract}
 
-%  Please place your key words in alphabetical order, separated
-%  by semicolons, with the first letter of the first word capitalized,
-%  and a period at the end of the list.
-%
+\noindent \textbf{Keywords:} Distance sampling; spatial modelling; generalized additive models; Poisson processes; abundance estimation.
 
-\begin{keywords}
-Distance sampling; spatial modelling; generalized additive models; Poisson processes; abundance estimation.
-\end{keywords}
 
-%  As usual, the \maketitle command creates the title and author/affiliations
-%  display 
 
-\maketitle
+\newpage
 
-\section{Introduction}
+
+\section*{Introduction}
+
 \label{s:intro}
 
-[[ Are we just going to talk about line transects here?]]
-[[ need to cite spatial modelling workshop -- Len has a paper on this with Lindesay?]]
-[[This intro doesn't seem quite right, I want to build it from a spatial modelling rather than distance point of view. I'm open to other approaches though.]]
 
-When surveying biological populations it is increasingly common to record spatially referenced data; for example simply collecting coordinates which can then be used to include information from a GIS. Mapping the spatial distribution of a population can be extremely useful for practitioners, especially when communicating results to non-experts. Spatial models allow for the vast databases of GIS data to be harnessed, allowing for interactions between environmental covariates and population densities to be investigated; including spatial covariates into the model (for example, latitude and longitude) can account for spatial autocorrelation. Recent advances in both methodology and software have made spatial modelling a relatively painless process (CITE Simon mgcv paper, INLA paper? Other stuff?).
+When surveying biological populations it is increasingly common to record spatially referenced data; for example: coordinates of observations, which can then be used to include information from a GIS. Mapping the spatial distribution of a population can be extremely useful for practitioners, especially when communicating results to non-experts. Spatial models allow for the vast databases of GIS data to be harnessed, allowing for interactions between environmental covariates and population densities to be investigated. Including spatial covariates into the model (for example, latitude and longitude) can account for spatial autocorrelation. Recent advances in both methodology and software have made spatial modelling a relatively painless process (e.g. \cite{Wood:2006wz}, \cite{Rue:2009tw})
 
-[[Useful in impact assessment -- cite some papers, cite strip transect thing from Kris]]
+This article concerns combining spatial modelling techniques with distance sampling (\cite{Buckland:2001vm}, \cite{Buckland:2004ts}). Distance sampling takes simple strip sampling and extends it to the case where detection is not certain, this is especially useful when surveys take place on boats or planes. This is achieved by recording distances to objects while observers walk/steam/fly along transect centre lines or standing at points, rather than simply counting the number of individuals. Distance sampling is concerned with estimating density by calculating the \textit{effective area} of a line or point transect survey. The effective area is derived from the \textit{detection function} ($g(y)$) which models the decrease in detectability with increasing distance from the line or point. The detection function may also include animal/observer specific covariates (\cite{Marques:2007vm}). The parameters of the detection function are estimated via maximum likelihood. Once estimated, the detection function ($\hat{g}(y)$) is integrated to find the \textit{effective strip half-width} ($\mu$) or \textit{effective area of detection} ($\nu$). 
 
-This article concerns combining spatial modelling techniques with distance sampling (CITE IDS, ADS). Distance sampling takes simple strip sampling and extends it to the case where detection is not certain, this is especially useful when surveys take place on boats or planes. This is achieved by recording distances to objects while observers walk/steam/fly along transect centrelines or standing at points, rather than simply counting the number of individuals. Distance sampling is concerned with estimating density by calculating the \textit{effective area} of a line or point transect survey. The effective area is derived from the \textit{detection function} ($g(y)$) which models the decrease in detectability with increasing distance from the line or point. The detection function may also include animal/observer specific covariates (CITE MCDS paper). The parameters of the detection function are estimated via maximum likelihood. Once estimated the detection function ($\hat{g}(y)$) is integrated to find the \textit{effective strip half-width} ($\mu$) or \textit{effective area of detection} ($\nu$) in the line and point cases respectively:
-\begin{eqnarray*}
-\hat{\mu} = \int_0^w \hat{g}(x) \text{d}x \qquad \text{for line transects},\\
-\hat{\nu} = 2\pi r \int_0^w r \hat{g}(r) \text{d}r \qquad \text{for point transects}.
-\end{eqnarray*}
-Here $x$ and $r$ are perpendicular and radial distance respectively and $w$ is the truncation distance (the distance after which observations are discarded).
+Usually in a distance sampling analysis one assumes that the objects of interest are distributed at random with respect to the lines or points (\cite{Buckland:2001vm}, Section 2.1) according to some homogeneous process (though this does not necessarily have to be a Poisson process; \cite{Buckland:2001vm}, Chapter 3). This assumes that objects' locations are not dependent on any spatially varying covariates (such as location, distance from coast, depth, etc) so with respect to the line, the objects are distributed uniformly. This assumption is perfectly acceptable when the survey can be designed so that it holds (for example, ensuring that transect lines run perpendicular to geographical features that would attract or repel animals). However, as discussed above, this is not always the case. It may also be desirable to include spatially varying covariates in the model as proxies for other biological processes which cannot be measured. \cite{Hedley:2004et} were the first to address spatial modelling of distance sampling data, allowing for a relaxation of the homogeneity of the point process, giving a rate parameter which is a function of spatially varying covariates. Thinking of the underlying placement of the objects as an inhomogeneous point process allows us to think of the detection process as a ``thinning'' (\cite{cox1980point}, Section 4.3) of the process, leading to another inhomogeneous point process. By assuming that the object placement and detection processes are independent, it is possible to separate out these two processes in the likelihood.
 
+Modelling the spatial process not only permits the use of GIS and other spatial data, it also gives practitioners the freedom to use data from non-designed surveys. For example ``incidental'' data arising from ``ecotourism'' cruises can be included in analyses (\cite{Williams:2006tz}).
 
-Usually in a distance sampling analysis one assumes that the objects of interest are distributed at random with respect to the lines or points (Buckland 2001, SECTION) according to some homogeneous process (though this does not necessarily have to be a Poisson process; Buckland (2001), Chapter 3). This means objects' locations are not dependent on any spatially varying covariates (such as location, distance from coast, depth, etc) so with respect to the line the objects are distributed uniformly. This assumption is perfectly acceptable when the survey can be designed so that it holds (for example, ensuring that transect lines run perpendicular to geographical features that would attract or repel animals). However, as discussed above, this is not always the case. It may also be desirable to include spatially varying covariates in the model as proxies for other biological processes which cannot be measured. Hedley and Buckland (2004) were the first to address spatial modelling of distance sampling data, allowing for a relaxation of the homogeneity of the point process, giving a rate parameter which is a function of spatially varying covariates. Thinking of the underlying placement of the objects as an inhomogeneous point process allows us to think of the detection process as a ``thinning'' (Cox and Isham, SECTION) of the process, leading to another inhomogeneous point process. By assuming that the object placement and detection processes are independent, it is possible to separate out these two processes in the likelihood.
+From this point process description, two modelling procedures arise. One approach is to directly model the point process, estimating the observation process as the thinning of that point process (\cite{Niemi:2010kx}, \cite{Johnson:2010gf}). A second approach consists of performing the usual distance analysis and then using the results from this to build a spatial model (\cite{Hedley:2004et}). We briefly describe two methods which take the former approach in the next section but note that these approaches are recent (and therefore have not yet been widely tested) and that typically the loss of efficiency in using the two-stage approach of \cite{Hedley:2004et} (described in detail in section \ref{s:dsm}) is not great (\cite{Buckland:2004ts}, p. 313). Other recent advances in the methodology are covered in section \ref{s:recentadvances}. Section \ref{s:practical} gives some practical advice and tips for analysing spatial distance sampling data before applying all of these to survey data on dolphins in the Gulf of Mexico in section \ref{s:data}. Finally, section \ref{s:discussion} summarizes the material set out here as well as looking at future directions of research.
 
-Modelling the spatial process not only permit the use of GIS and other spatial data, it also gives practitioners the freedom to use data from non-designed surveys. For example ``incidental'' data arising from ``ecotourism'' cruises can be included in analyses (CITE Rob Williams paper on this).
-
-From this point process description, two modelling procedures arise. One approach is to directly model the point process, estimating the observation process as the thinning of that point process (Johnson, Laake and ver Hoef (2010); Niemi and Fern\'andez (2010)). A second approach consists of performing the usual distance analysis and then using the results from this to build a spatial model (Hedley and Buckland (2004)). We briefly describe two methods which take the former approach in the next section but note that these approaches are recent (and therefore have not yet been widely tested) and that typically the loss of efficiency in using the two-stage approach of Hedley and Buckland (2004) (described in detail in section \ref{s:dsm}) is not great (Buckland et al. 2004, p. 313). Other recent advances in the methodology are covered in section \ref{s:recentadvances}. Section \ref{s:practical} gives some practical advice and tips for analysing spatial distance sampling data before applying all of these to a data set on [[which data set??]] in section \ref{s:data}. Finally, section \ref{s:discussion} summarizes the material set out here as well as looking at future directions of research.
-
-\section{Direct modelling of the process}
+\section*{Direct modelling of the process}
 \label{s:direct}
 
-[[these two paragraphs seem a bit dense at the moment]]
+\cite{Johnson:2010gf} propose a point process-based model for distance sampling data (henceforth referred to as DSpat). They first assume that the locations of all individuals in the survey area (not just those which were observed) are a realisation of an inhomogeneous Poisson process which is a function of space. The authors then take the novel approach of allowing for separate (disjoint) regions of the survey area to have different detection functions associated with them. The sum of these detection functions is then used as a thinning of the Poisson process. The parameters are then found via standard maximum likelihood methods for point processes (see, e.g. \cite{Baddeley:2000to}). From the fitted model two different estimates of abundance can be found. First, by integrating the (unthinned) intensity function over the some arbitrary region (which includes the survey area) the so-called \textit{expected abundance} can be calculated; second, the \textit{realized abundance} can be found by generating a realization from a Poisson process with corresponding intensity function. In contrast to \cite{Hedley:2004et}, parameters are estimated jointly so uncertainty is incorporated. Concurrent estimation of the parameters also ensures that interactions between the thinning and underlying point process are estimated correctly. The authors also address the issue of overdispersion -- that is small-scale variation in the intensity function which is unmodelled by spatial covariates. 
 
-Johnson, Laake and ver Hoef (2010) propose a point process-based model for distance sampling data (henceforth referred to as DSpat). They first assume that the locations of all individuals in the survey area (not just those which were observed) are a realisation of an inhomogeneous Poisson process with intensity function $\lambda(x,y,\bm{\eta})$ (where $x$ and $y$ are coordinates and $\bm{\theta}$ contains the parameters of the intensity function). The authors then take the novel approach of allowing for separate (disjoint) regions of the survey area to have different detection functions associated with them. The sum of these detection functions ($q(x,y,\bm{\theta}) = \sum_k g_k(x,\theta_k)$) is then used as a thinning of the Poisson process (so the intensity function of the thinned process is $q(x,y,\bm{\theta})\lambda(x,y,\bm{\eta})$). The parameters are then found via standard maximum likelihood methods for point processes. From the fitted model two different estimates of abundance can be found. First, by integrating the (unthinned) intensity function over the some arbitrary region (which includes the survey area) the so-called \textit{expected abundance} can be calculated; second, the \textit{realized abundance} can be found by generating a realization from a Poisson process with corresponding intensity function. Variance for the expected abundance can be found using the delta method (Seber, 1982); in contrast to the methods above, the parameters are estimated jointly so uncertainty is incorporated. Concurrent estimation of the parameters also ensures that interactions between the thinning and underlying point process are estimated correctly. The authors also address the issue of overdispersion -- that is small-scale variation in the intensity function which is unmodelled by spatial covariates. This overdispersion can be modelled by a Cox process (Cox, 1955) although the authors do not take this option due to the computationally intensive nature of fitting such models. Instead they calculate an overdispersion factor which allows the estimated variance to be appropriately inflated.
+%This overdispersion can be modelled by a Cox process (\cite{Cox:1955vb}) although the authors do not take this option due to the computationally intensive nature of fitting such models. Instead they calculate an overdispersion factor which allows the estimated variance to be appropriately inflated.
 
-Niemi and Fern\'andez (2010) also use Poisson processes, although they use a fully Bayesian approach. Their intensity function takes the form of a product of a parametric function of the covariates and a mixture of Gaussian kernels as a spatial smooth (with Gamma weights). An appropriate degree of smoothing could be selected by putting prior distributions on the number and locations of the ``knots'' of the spatial smooth (the means of the Gaussian kernels) and then using the RJMCMC algorithm (Green, 1996). However, since in their formulation the authors only consider a single precision parameter for all of the kernels, small and large scale variation cannot both be accommodated. As in the above approach the detection function was used as a thinning of the process, although (unlike DSpat) only one detection function was used across the whole region with known parameters. This means that unlike DSpat (and similar to the count model, above), the uncertainty in the detection function is not incorporated in the model.
+\cite{Niemi:2010kx} also use Poisson processes, although they use a fully Bayesian approach. Their intensity function takes the form of a product of a parametric function of the covariates and a mixture of Gaussian kernels as a spatial smooth (with Gamma weights). An appropriate degree of smoothing could be selected by putting prior distributions on the number and locations of the ``knots'' of the spatial smooth (the means of the Gaussian kernels) and then using the RJMCMC algorithm (\cite{GREEN:1995dg}). However, since in their formulation the authors only consider a single precision parameter for all of the kernels, small and large scale variation cannot both be accommodated. As in the above approach, the detection function was used as a thinning of the process, although (unlike DSpat) only one detection function was used across the whole region with known parameters. This means that unlike DSpat (and similar to the count model, above), the uncertainty in the detection function is not incorporated in the spatial model.
 
-Both of the above Poisson process models do not account for group size, both stating that this could be included by considering a marked ([[CITE]]) point process.
+Both of the above Poisson process models do not account for group size, both stating that this could be included by considering a marked (\cite{cox1980point}, Section 5.5) point process. Both methods offer direct modelling of the point process, although with some drawbacks compared to the methodology of \cite{Hedley:2004et}. This paper focuses on the advances in their methodology.
 
-[[Say something general here about how these methods are fine but there is a more work being done with DSM, and although they offer an ``integrated'' approach, they both are not completely satisfactory.]]
-
-\section{Density surface modelling}
+\section*{Density surface modelling}
 \label{s:dsm}
 
-Hedley and Buckland (2004) pioneered spatial modelling of distance sampling data, we refer to their approach as \textit{density surface modelling} (DSM). This approach is incorporated into the popular software package Distance (Thomas et al, 2010). Rather than modelling the point process directly, DSM is based a spatial model for the survey area using the counts, abundance or observation density [[cut this if we don't talk about density estimation]] as response. The principle is simple: just as CDS and MCDS extend strip transect sampling to the case where detection is not guaranteed, DSM extends a spatial model for strip transects.
+We refer to the approach of \cite{Hedley:2004et} as \textit{density surface modelling} (DSM), this is used as a rather general description for modeling distance sampling data using spatially referenced (though not necessarily spatial) data. The approach is incorporated into the popular software package Distance (\cite{Thomas:2010cf}). Rather than modelling the point process directly, DSM is based a spatial model for the survey area using the counts, abundance (of individuals or groups) or observation density as response. The principle is simple: just as conventional and multiple covariate distance sampling (CDS and MCDS, respectively) extend strip transect sampling to the case where detection is not guaranteed, DSM extends a spatial model for strip transects.
 
-Thinking on about conducting a strip transect survey for now, strips are divided into contiguous \textit{segments} (indexed by $j$), which are of length $s_j$; small enough such that the density does not vary a lot in the segment. For each of these segments the number of observations ($n_j$) is the response. This count can then be modelled as a function of spatial and environmental covariates (the $\mathbf{z}_{jk}$ for $k$ indexing the covariates: e.g. location, sea surface temperature, weather conditions) using a generalized linear (GLM; McCullagh and Nelder, 1989) or generalized additive model (GAM; e.g. Wood, 2006; Ruppert, Wand and Carroll, 2003). A GAM is used here for exposition, since the framework is more general. The effort enters the model as an offset (the area of the segment $A_j = 2ws_j$). For strip transects, we can write the model as:
+Thinking on about conducting a strip transect survey for now, strips are divided into contiguous \textit{segments} (indexed by $j$), which are of length $s_j$; small enough such that the density does not vary a lot in the segment. For each of these segments the number of observations ($n_j$) is the response. This count can then be modelled as a function of spatial and environmental covariates (the $\mathbf{z}_{jk}$ for $k$ indexing the covariates: e.g. location, sea surface temperature, weather conditions) using a generalized linear (GLM; \cite{McCullagh:1989ux}) or generalized additive model (GAM; e.g. \cite{Wood:2006wz}). A GAM is used here for exposition, since the framework is more general. The effort enters the model as an offset (the area of the segment $A_j = 2ws_j$). For strip transects, we can write the model as:
 \begin{equation}
 \mathbb{E}(n_j) = \exp\left[ \log_e A_j + \beta_0 + \sum_k f_k\left(\bm{z}_{jk}\right) \right],
 \label{e:stripgam}
 \end{equation}
 where the $f_k$s are smooth functions of the covariates in the GAM case (but could equally be linear functions of the covariates in the GLM case). The distribution of $n_j$ is usually modelled as quasi-Poisson but other options are possible (see Section \ref{s:Tweedie}, below).
 
-\subsection{DSM with covariates at the segment/point level}
+\subsection*{DSM with covariates at the segment/point level}
 
-[[more here on why this makes sense? Offset details?]]
-
-If distances rather than counts are recorded, we replace $A_j$ by $A_j\hat{P_a}(\mathbf{z}_j)$ in (\ref{e:stripgam}), making the offset the effective area. Modelling then operates in two stages, first a detection function is fitted to the distance data to obtain $\hat{P_a}(\mathbf{z}_j)$, the following spatial model is then fitted:
+If distances are recorded, we replace $A_j$ by $A_j\hat{P_a}$ in (\ref{e:stripgam}), where $\hat{P_a}$ is the probability of detection -- making the offset the effective area of the segment. Modelling then operates in two stages, first a detection function is fitted to the distance data to obtain $\hat{P_a}$, then the following model is fitted:
 \begin{equation}
 \mathbb{E}(n_j) = \exp\left[ \log_e A_j\hat{P_a}(\mathbf{z}_j) + \beta_0 + \sum_k f_k\left(\bm{z}_{jk}\right) \right],
 \label{e:gamn}
 \end{equation}
-This formulation can also be used for point transects by setting $A_j=w\pi^2$, $\forall j$ is the area of the circle; for both line and point transects $w$ is the truncation distance, as usual. $\hat{P_a}(\mathbf{z}_j)$ is the probability of detection as a function of the covariates measured for segment/point $j$ (the $\mathbf{z}_j$). The above definition of the smooth terms is rather general since multiple covariates could be included in single smooth terms via tensor products of univariate bases (see Wood, 2006 Section 4.1.8) or via multivariate spline bases (e.g. thin plate regression splines; Wood, 2003). Explicitly including a spatial term, the above can be re-written as:
+This formulation can also be used for point transects by setting $A_j=w\pi^2$, $\forall j$ is the area of the circle; for both line and point transects $w$ is the truncation distance, as usual. $\hat{P_a}(\mathbf{z}_j)$ is the probability of detection as a function of the covariates measured for segment/point $j$ (the $\mathbf{z}_j$). The above definition of the smooth terms is rather general since multiple covariates could be included in single smooth terms via tensor products of univariate bases (see \cite{Wood:2006wz}, Section 4.1.8) or via multivariate spline bases (e.g. thin plate regression splines; \cite{Wood:2003tc}). Explicitly including a spatial term, the above can be re-written as:
 \begin{equation*}
 \mathbb{E}(n_j) = \exp\left[ \log_e A_j \hat{P_a}(\mathbf{z}_j) + \beta_0 + f_\text{space}\left(x_j,y_j\right) + \sum_k f_k \left(\bm{z}_{jk}\right) \right],
 \end{equation*}
-where $(x_j,y_j)$ is the centroid of the $j^\text{th}$ segment or point and $f_\text{space}$ is a smooth function of space; basis choice for spatial smooths is covered in Section \ref{s:leakage}.
+where $(x_j,y_j)$ is the centroid of the $j^\text{th}$ segment or point and $f_\text{space}$ is a smooth function of space; basis choice for spatial smooths is covered in Section \ref{s:leakage}. Note that even if spatial coordinates are not used, the model is still spatial in a sense, since the covariates used in the GAM are spatially referenced.
 
-\subsection{DSM with covariates at the individual level}
+\subsection*{DSM with covariates at the individual level}
 
-The above model only considers the case where the covariates are measured only at the segment/point level (\textit{environmental covariates}). Often in MCDS analyses, the covariates are collected on the level of individuals (or groups); for example sex, observer identity or size. Incorporating these directly into (\ref{e:gamn}) is not possible since the sample unit is the segments/points. However we can note that $\hat{N}_j = n_j/\hat{P_a}(\mathbf{z}_j)$, so we could (via some elementary re-arrangement) write (\ref{e:gamn}) as:
+The above model only considers the case where the covariates are measured only at the segment/point level (\textit{environmental covariates}). Often in MCDS analyses, covariates are collected on the level of individuals (or groups); for example sex, size or observer identity. Incorporating these directly into (\ref{e:gamn}) is not possible since the sample unit is the segments/points. However we can note that $\hat{N}_j = n_j/\hat{P_a}(\mathbf{z}_j)$, so we could (via some elementary re-arrangement) write (\ref{e:gamn}) as:
 \begin{equation}
 \mathbb{E}(\hat{N}_j) = \exp\left[ \log_e A_j + \beta_0 + \sum_k f_k\left(\bm{z}_{jk}\right) \right],
 \label{e:gamN}
 \end{equation}
-from there, for the multiple covariate case it is simply a case of estimating $\hat{N}_j$ for each covariate via the usual Horvitz-Thompson-type estimator:
+from there, for the multiple covariate case it is simply a case of estimating $\hat{N}_j$ for each covariate via the usual Horvitz-Thompson-type estimator (\cite{Thompson:2002wi}:
 \begin{equation*}
 \hat{N}_j = \sum_{i=1}^{n_j} \frac{1}{\hat{P_a}(\mathbf{z}_{ij})},
 %\label{e:HTseg}
 \end{equation*}
 which can be used as the response in (\ref{e:gamN}). 
 
-[[is it necessary to talk about modelling density as the response here, I've not seen much on this I guess we could include it for completeness...]]
+\subsection*{Estimating abundance}
 
+Our aims in a DSM analysis are usually two-fold: estimating overall abundance and investigating the relationship between abundance and environmental covariates. In this section we dwell on the former issue.
 
-\subsection{Variance estimation}
-[[maybe make this a section on it's own?]]
+To calculate an abundance estimate of some arbitrary spatial region (for example the study area), the necessary covariates (which were included in the model) must be available for the whole of the region, they must also be available at the required resolution (using prediction grid cells that are smaller than the resolution of the spatially referenced data doesn't make sense). Having acquired the relevant data and re-calculated the $A_j$s (if necessary), predictions can be made for the particular covariate levels and abundance estimates calculated from summing predicted values over the prediction grid cells. 
 
-Variance estimation for DSM is rather tricky since uncertainty from the estimated parameters of the detection function must be incorporated into the smooth. A second consideration is that in a line transect survey, adjacent segments are likely to be highly correlated; failing to account for this spatial autocorrelation will lead to artificially low variance estimates and hence misleadingly narrow confidence intervals. The rest of this section showcases several approaches to variance estimation for DSM.
+As with any predictions which are outside of the range of the data, one should heed the usual caveats regarding extrapolation. In particular, over a large area spatially referenced covariates may change considerably, leading to vastly different predictions. For example, in an offshore study the effect of a continental shelf maybe cause significant issues if there were not observations on both sides of the shelf. Since it is often required that abundance maps are created, issues relating to out-of-sample predictions can be visually assessed, as well as by plotting a histogram of the predicted values.
 
-\subsubsection{Resampling-based methods}
+\subsection*{Variance estimation}
 
-Hedley and Buckland (2004) describe a method of calculating the variance in the abundance estimates using a parametric bootstrap. Given we have a fitted model (denoted $\hat{f}$), denote the fitted values (one per segment) $\hat{\bm{\eta}}$ (this could be counts, estimated abundances or densities, as discussed above) and the per-segment residuals as $\hat{\mathbf{r}}$. The bootstrap then follows the following steps:
+Estimating the variance of abundances calculated using DSM is rather tricky: uncertainty from the estimated parameters of the detection function must be incorporated into the spatial model. A second consideration is that in a line transect survey, adjacent segments are likely to be highly correlated; failing to account for this spatial autocorrelation will lead to artificially low variance estimates and hence misleadingly narrow confidence intervals.
 
-[[Not sure how best to format this; I realise that there are some ordering assumptions here -- adding them in makes this \textit{way} more complicated, can I just state that we keep track of this?; better notation?]]
+\subsubsection*{Resampling-based methods}
 
-[[Again here we're talking about line transects, I'm not even totally sure how this would work in a point transect case...]]
+\cite{Hedley:2004et} describe a method of calculating the variance in the abundance estimates using a parametric bootstrap, resampling from the residuals of the fitted model. The bootstrap then follows the following steps:
 
-[[ADDITIONALLY: this is not actually what happens in DSM at the moment, we discard the transect information and just resample the blocks/segments. I think that this is probably okay for the residuals but for the counts (further down) this will screw up the overall spatial pattern. What do you think?]]
+Denote the fitted values for the model to be $\hat{\bm{\eta}}$. For $b=1,\ldots,B$ (where $B$ is the number of resamples required):
+\begin{enumerate}
+	\item Resample (with replacement) the per-segment residuals, store the values in $\mathbf{r}_{b}$.
+	\item Refit the model but with the response set to $\hat{\bm{\eta}}+\mathbf{r}_{b}$ (where $\hat{\bm{\eta}}$ are the fitted values from the orginal model).
+	\item Take the predicted values for the new model and store them.
+\end{enumerate}
+From the predicted values stored in the last step, the per-location and abundance variance can be calculated in the usual manner. The total variance of the abundance estimate can then be found by combining the variance estimate from the bootstrap procedure with the variance of the probability of detection from the detection function model (using the delta method; \cite{Seber:2002ti}). This assumes that the two components of the variance are independent and the method does not not take into account spatial autocorrelation (since the individual segments are treated as independent).
 
-[[Is the delta method well known enough to just cite it or is it worth putting something in the appendix about it?]]
+The above procedure assumes that there is no correlation in space between segments and they can be swapped around within each transect. Clearly if many animals are observed in a segment then we would expect there to be a relatively high level in the next segment (especially since the segments are defined after the survey). A moving block bootstrap (MBB) can account for some of the spatial autocorrelation in the variance estimation. The segments are grouped together into overlapping blocks, (so if the block size is 5, block one is segments $1,\ldots,5$, the second block is segments $2,\ldots,6$, and so on). Then, at step (2) above, resamples are taken of the blocks (i.e. groups of segments together) rather than individual segments within the transects. Using blocks should account for some of the autocorrelation between the segments, inflating the variances accordingly.
 
-[[Think we need to talk about per-point vs. $\text{var}(\hat{N})$ at the start here... Variance of an integral of the smooth...]]
+\cite{Williams:2006tz} use a slight variation on the MBB, resampling either days or trips such that the total segment length was approximately the same as that in the original survey. The authors use a jackknife (\cite{Efron:1979ha}), removing one day (or trip) in turn and refitting the model to the remaining data. Predictions from the fitted model could be used to calculate a variance and from that confidence intervals based (assuming that abundance estimates are log-normally distributed; \cite{Buckland:2001vm}, Section 3.6). By calculating variances for both day and trip, the authors also propose an informal test of between-day correlation: if adjacent days are independent then the variance estimates for trip and day should be similar, on the other hand if the adjacent days are autocorrelated then it would be expected that the trip variance would be lower (and the confidence intervals tighter). This test could then be used to decide which of the two resampling units should be used to calculate the abundance variance (if there was evidence of autocorrelation then trip should be used). The authors also used the jackknife approach to produce maps of the study area showing how the surface changed when different parts of the data were removed.
 
-[[Need to talk about how big $B$ should be, as this is sure to be a question.]]
+The methods detailed above account only for variability in the spatial part of the model, not the uncertainty in the detection function. The above moving block bootstrap can be modified to take into account detection function uncertainty by generating new distances from the fitted detection function and then re-calculating the offset by fitting a detection function to the new data. The (new) procedure works as follows:
 
 For $b=1,\ldots,B$ (where $B$ is the number of resamples required):
 \begin{enumerate}
-	\item Initialize $\hat{\bm{\eta}}$ as an empty vector.
-	\item Within each transect $k=1,\ldots,K$ (if there are $K$ transects):
-	\begin{enumerate}
-		\item Resample (with replacement) the per-segment residuals corresponding to transect $k$, store the values in $\mathbf{r}_{bk}$.
-		\item Append $\hat{\bm{\eta}}_{k}+\mathbf{r}_{ik}$ (where $\hat{\bm{\eta}}_{k}$ are the fitted values corresponding to this transect) to $\hat{\bm{\eta}}$.
-	\end{enumerate}
-	\item Refit the model to the data with the response values replaced by the corresponding entries in $\hat{\bm{\eta}}$.
+	\item Resample (with replacement) the per-block residuals, store the values in $\mathbf{r}_{b}$.
+	\item Let $n_b$ be the sum of $\hat{\bm{\eta}}+\mathbf{r}_{b}$, rounding to the nearest integer.
+	\item Generate $n_b$ new distances from the fitted detection function, refit a new detection function (with the same key function and adjustment terms and selecting the number of adjustments using AIC, if required).
+	\item Calculate $\hat{\mu}$ and hence a new offset.
+	\item Refit the spatial model (with the same covariates but allowing the smoothing parameter to be selected), to the new response ($\hat{\bm{\eta}}+\mathbf{r}_{b}$) with the new offset.
 	\item Take the predicted values for the new model and store them.
 \end{enumerate}
-From the predicted values stored in the last step, the per-location and abundance variance can be calculated in the usual manner. This variance estimate from the bootstrap procedure is then combined with the variance of the abundance from the detection function model (i.e. the variance of the effective strip width) via the delta method (Seber, 1982 or cite from DSPat paper) to obtain an overall variance estimate. As discussed above, the assumption here is that the two components of the variance are independent and the method does not not take into account spatial autocorrelation (since the individual segments are treated as independent).
 
-The above procedure assumes that there is no correlation in space between segments and they can be swapped around within each transect. Clearly if many animals are observed in a segment then we would expect there to be a relatively high level in the next segment (especially since the segments are defined after the survey). A moving block bootstrap (MBB) can include some of the spatial autocorrelation in the variance estimation. The segments are grouped together into $b$ overlapping blocks, (so if the block size is 5, block one is segments $1,\ldots,5$, the second block is segments $2,\ldots,6$, and so on). Then, at step (1)(a) above, resamples are taken of the blocks within each transect (i.e. groups of segments together) rather than individual segments within the transects. Using blocks should account for some of the autocorrelation between the segments, inflating the variances accordingly.
+\subsubsection*{Variance propagation}
 
+%Rather than using the (rather time-consuming) bootstrap methods above, it would be nice to be able to calculate the variance without having to refit the model many times. \cite{WILLIAMS:2011in} use a rather neat trick to incorporate the uncertainty in the estimation of the detection function into the variance of the spatial model, albeit only in the case where covariates are measure at a point/segment level only. The authors restate (\ref{e:gamn}) as:
+%\begin{equation}
+%\mathbb{E}(n_j) = \exp\left[ \log_eA_j + \log_e \hat{P_a}(\bm{\theta} - \bm{\gamma}; \mathbf{z}_j) + \beta_0 + \sum_k f_k\left(\bm{z}_{jk}\right) \right],
+%\label{e:gamnre1}
+%\end{equation}
+%where $\bm{\gamma} = \bm{\theta} - \bm{\hat{\theta}}$ ($\bm{\hat{\theta}}$ being the MLE of $\bm{\theta}$). We can then write (\ref{e:gamnre1}) as:
+%\begin{equation*}
+%\mathbb{E}(n_j) = \exp\left[ \log_eA_j +  \left[ \frac{\partial \log_e \hat{P_a}(\bm{\theta}; \mathbf{z}_j)}{\partial \bm{\theta} }\right]_{\bm{\theta} = \bm{\hat{\theta}}}\centerdot \bm{\gamma}  + \beta_0 + \sum_k f_k\left(\bm{z}_{jk}\right) \right],
+%\end{equation*}
+%(by the definition of a derivative). The derivative term can then be thought of as a random effect with associated parameter $\bm{\gamma}$, where $\bm{\gamma} \sim \text{MVN}(\bm{0}, -\bm{H_{\hat{\theta}}}^{-1})$ (where $\bm{H_{\hat{\theta}}}$ is the Hessian of the $\log$-likelihood at $\bm{\hat{\theta}}$, taken from the optimisation of the detection function). Fitting a model with this formulation, the uncertainty in the detection function parameters can be included in the total variance estimates for the model.
 
-[[Most of this stuff is in their online appendix, not in the paper. Not sure how best to make this clear, as there is no mention of it in the paper at all; maybe move this paragraph to the practical advice section??]] 
-Williams, Hedley and Hammond (2006) use a non-parametric bootstrap resampling either days or trips from the survey such that the total segment length was approximately the same as that in the original survey. A model was then fitted to this resampled data with truncation distance, detection function parameters and smooth terms (although not the degree of smoothing) held as for the original model. Repeating this 300 times then extracting the appropriate quantiles will give corresponding confidence intervals for the abundance. Additionally, the authors use a jackknife (CITE), removing one day (or trip, as above) in turn and refitting the model to the remaining data. Predictions from the fitted model could be used to calculate a variance and from that confidence intervals based on a log-normal assumption on the distribution of the abundance estimates (as suggested in Buckland et al. 2001). By calculating variances for both day and trip, the authors also propose an informal test of between-day correlation: if adjacent days are independent then the variance estimates for trip and day should be similar, on the other hand if the adjacent days are autocorrelated then it would be expected that the trip variance would be lower (and the confidence intervals tighter). This test could then be used to decide which of the two resampling units should be used to calculate the abundance variance (if there was evidence of autocorrelation then trip should be used). The authors also used the jackknife approach to create maps of the study area showing how the surface changed when different parts of the data were removed.
-
-The methods detailed above account only for variability in the spatial part of the model, not the uncertainty in the detection function. The above moving block bootstrap can be modified to take into account detection function uncertainty.
-
-
-
-
-Non-parametric moving block bootstrap incorporating detection function uncertainty...
-
-For $b=1,\ldots,B$ (where $B$ is the number of resamples required):
+Rather than using the (rather time-consuming) bootstrap methods above, \cite{WILLIAMS:2011in} calculate the variance without having to refit the model many times.  Their method incorporates the uncertainty in the estimation of the detection function into the variance of the spatial model, albeit only in the case where covariates are measure at a point/segment level only. Their procedure is as follows:
 \begin{enumerate}
-	\item Initialize $\mathbf{n}_b$ as an empty vector.
-	\item Within each transect $k=1,\ldots,K$ (if there are $K$ transects):
-	\begin{enumerate}
-		\item Resample (with replacement) the per-segment counts corresponding to transect $k$ on block-wise basis. Append these to $\mathbf{n}_b$.
-	\end{enumerate}
-	\item Generate a new set of distances from the fitted detection function for each count in $\mathbf{n}$.
-	\item Refit the detection function to the new distance data, to obtain a new $\bm{\hat{\mu}}$.
-	\item Refit the spatial model to the new count data ($\mathbf{n}_b$) and using the new $\bm{\hat{\mu}}$ to create an offset.
-	\item Take the predicted values for the new model and store them.
+\item Fit the model described in (\ref{e:gamn}).
+\item Re-fit the model with additional random effects term. This term characterises the uncertainty in the estimation of the detection function (via the uncertainty of the probability of detection, $\hat{P_a}$).
+\item Variance estimates of the abundance calculated from the model will include uncertainty from estimation of the detection function.
 \end{enumerate}
 
 
-
-\subsubsection{Integrated approaches}
-
-[[Might well be worth noting here that there is an error in the paper and that this is the correct version of how this works? Rob has submitted a correction to the journal.]]
-
-Rather than using the (rather time-consuming) bootstrap methods above, it would be nice to be able to calculate the variance without having to refit the model many times. Williams et al (2011) use a rather neat trick to incorporate the uncertainty in the estimation of the detection function into the variance of the spatial model, albeit only in the case where covariates are measure at a point/segment level only. The authors restate (\ref{e:gamn}) as:
-\begin{equation}
-\mathbb{E}(n_j) = \exp\left[ \log_eA_j + \log_e \hat{P_a}(\bm{\theta} - \bm{\gamma}; \mathbf{z}_j) + \beta_0 + \sum_k f_k\left(\bm{z}_{jk}\right) \right],
-\label{e:gamnre1}
-\end{equation}
-where $\bm{\gamma} = \bm{\theta} - \bm{\hat{\theta}}$ ($\bm{\hat{\theta}}$ being the MLE of $\bm{\theta}$). We can then write (\ref{e:gamnre1}) as:
-\begin{equation*}
-\mathbb{E}(n_j) = \exp\left[ \log_eA_j +  \left[ \frac{\partial \log_e \hat{P_a}(\bm{\theta}; \mathbf{z}_j)}{\partial \bm{\theta} }\right]_{\bm{\theta} = \bm{\hat{\theta}}}\centerdot \bm{\gamma}  + \beta_0 + \sum_k f_k\left(\bm{z}_{jk}\right) \right],
-\end{equation*}
-(by the definition of a derivative). The derivative term can then be thought of as a random effect with associated parameter $\bm{\gamma}$, where $\bm{\gamma} \sim \text{MVN}(\bm{0}, -\bm{H_{\hat{\theta}}}^{-1})$ (where $\bm{H_{\hat{\theta}}}$ is the Hessian at $\bm{\hat{\theta}}$, taken from the optimisation of the detection function). Fitting a model with this formulation, the uncertainty in the detection function parameters can be included in the total variance estimates for the model.
-
-[[this is in Sharon and Mark's package varprop and I've hacked together a version for dsm that is in the repo at the moment. Not sure whether I can spur Mark and Sharon into action to fix the bugs I found or wether to just say that we have a version in dsm (and credit them)]]
-
-\subsection{Comparison of DSM methods}
+\subsection*{Comparison of DSM methods}
 
 [[ do a summary here? Compatibility table for the variance methods? As in distance manual? Drawbacks/advantages?]]
 
 [[might the table be better as a flow diagram -- which Lego bits plug into which others?]]
 
-\begin{table}[htbp]
-\centering
-\caption{[[dsm comparison table]]}
-\begin{tabular}{c c c c c c}\\
-\hline
-\hline
-Response & Offset & Weighting & Link & Response distributions & Variance estimation\\
-\hline
-Abundance ($\hat{N}_j$) & Covered $A_j$ & None & $\log$ & quasi-Poisson, negative binomial, Tweedie & Bootstrap, MBB\\
-Count ($\hat{n}_j$) & Effective $A_j\hat{P_a}(\mathbf{z}_j)$ & None & $\log$ & quasi-Poisson, negative binomial, Tweedie & Bootstrap, MBB, Williams et al (2011)\\
-\hline
-\hline
-\end{tabular}
-\label{soap-basis-table}
-\end{table}
+%\begin{table}[htbp]
+%\centering
+%\caption{[[dsm comparison table]]}
+%\begin{tabular}{c c c c c c}\\
+%\hline
+%\hline
+%Response & Offset & Weighting & Link & Response distributions & Variance estimation\\
+%\hline
+%Abundance ($\hat{N}_j$) & Covered $A_j$ & None & $\log$ & quasi-Poisson, negative binomial, Tweedie & Bootstrap, MBB\\
+%Count ($\hat{n}_j$) & Effective $A_j\hat{P_a}(\mathbf{z}_j)$ & None & $\log$ & quasi-Poisson, negative binomial, Tweedie & Bootstrap, MBB, Williams et al (2011)\\
+%\hline
+%\hline
+%\end{tabular}
+%\label{soap-basis-table}
+%\end{table}
 
 
-\subsection{Visualising uncertainty}
+\subsection*{Visualising uncertainty}
 
 [[Approach from Eric/Monique in tech report?]]
 
+[[I seem to remember that Distance produces CV maps, is this a good idea?]]
 
-\section{Recent developments}
+\section*{Recent developments}
 \label{s:recentadvances}
 
 
-\subsection{MMPP}
 
-[[Know that there tends to be some clustering.
-
-Cox process, we have $\lambda$ as a function. 
-Instead, make it a finite state Markov process -> matrix.
-Skaug just uses two states ``high'' and ``low'' ($\lambda_1< \lambda_2$.
-
-Make the levels a function of covariates -> GLM or GAM]]
-
-[[MMPP is not currently implemented, I have some (Pascal!) code from Mark that I'm translating into R, not sure if I'll end up turning it into C code eventually for speed reasons.]]
-
-
-\subsection{Complex boundaries}
+\subsection*{Complex boundaries}
 \label{s:leakage}
 
-Recent work (Ramsay (2001), Wang and Ranalli (2007), Wood et al (2008), Scott-Hayward et al (???), Marra et al (2011) and Miller and Wood (in prep)) has highlighted the need to take care when using generalized additive models when the boundary has a complex shape. This can be particularly problematic when the survey takes place at sea. The phenomenon known as \textit{leakage} can cause problems in spatial smooths. Leakage occurs when two parts of the domain (either side of a peninsula, say) are inappropriately linked by the model. Ensuring that a realistic spatial model has been fit to the data (and, for example, that whales have not been estimated to dwell on land) is essential for valid inference.
+Recent work (\cite{Ramsay:2002uo}, \cite{Wang:2007tf}, \cite{Wood:2008vo}, Scott-Hayward et al (???) and Miller and Wood (in prep)) has highlighted the need to take care when using generalized additive models when the boundary has a complex shape. This can be particularly problematic when the survey takes place at sea. The phenomenon known as \textit{leakage} can cause problems in spatial smooths. Leakage occurs when two parts of the domain (either side of a peninsula, say) are inappropriately linked by the model. Ensuring that a realistic spatial model has been fit to the data (and, for example, that whales have not been estimated to dwell on land) is essential for valid inference.
 
-The soap film smoother of Wood et al (2008) is particularly appealing as the model jointly estimates boundary conditions for a complex study area along with the ``interior'' smooth. This can be particularly helpful when uncertainty is estimated via a bootstrap as the model helps avoid large, unrealistic predictions which can plague other bases ([[CITE, Sharon/Mark IWC paper?]]).
+The soap film smoother of \cite{Wood:2008vo} is particularly appealing as the model jointly estimates boundary conditions for a complex study area along with the ``interior'' smooth. This can be particularly helpful when uncertainty is estimated via a bootstrap as the model helps avoid large, unrealistic predictions which can plague other smoothers ([[CITE, Sharon/Mark IWC paper?]]).
 
-\subsection{Tweedie distribution}
+\subsection*{Tweedie distribution}
 \label{s:Tweedie}
 
-The quasi-Poisson distribution is the usual response distribution when using DSM, however recent work, particularly by Bravington and Hedley ([[CITE]]) has lead to a rise in popularity of the Tweedie distribution. 
+The quasi-Poisson distribution is the usual response distribution when using DSM, however recent work, particularly by Bravington and Hedley ([[CITE a bunch of papers]]) has lead to a rise in popularity of the Tweedie distribution. Candy (2004) gives a good introduction to the distribution. 
+
+Tweedie distributions are a very general family of exponential dispersion model. Using the parameter $p$, many common distributions arise. These include the normal ($p=0$), Poisson ($p=1$) and gamma ($p=2$) distributions (CITE Jorgensen). Although it is possible to optimize $p$, this is generally seen as unnecessary since the distribution does not change appreciably when $p$ is changed by less than $0.1$ (therefore trial and error is not computationally infeasible). Mark Bravington (via e-mail) suggests plotting the square root of the absolute value of the residuals and if this plot is flat a ``correct'' $p$ has been found. Additionally he suggests that a value of 1.5/1.6 for $p$ for fisheries and 1.2 marine mammal work is generally acceptable.
+
+[[ Need to say about how this is supports in dsm NOW! ]]
 
 
-[[stolen from Italy paper! 
-Tweedie distributions are a special case of an exponential dispersion model and include, for example, the normal ($p=0$), Poisson ($p=1$) and gamma ($p=2$) distributions (\cite{Jorgensen}). For $1<p<2$ Tweedie distributions can be represented as Poisson mixtures of gamma distributions, with mass at zero but otherwise continuous on the positive reals. The Tweedie distribution is implemented in the \textsf{R} package \texttt{mgcv}, making it an easy to use alternative. Dunn (2005) and Candy (2004) provide a good introduction and a survey of published applications stressing the utility and flexibility of this class of distributions.]]
-
-
-[[Suggested values for $p$ from Mark; why don't we have to select $p$]]
-
-\subsection{Other things from Mark?}
-
-[[residuals stuff?]]
-
-[[beta-binomial correction stuff?
-In the previous section, the incorporation of detection function uncertainty was covered. However, it was assumed that the detection function uncertainty affected the spatial part of the model, but that uncertainty in the spatial part did not affect the detection function.]]
-
-
-\section{Practical advice}
+\section*{Practical advice}
 \label{s:practical}
 
-[[binomial correction rationalisation -- see MVB doc]]
+[[easy/essential:
+\begin{itemize}
+\item lat/long to northings and eastings -- Mark B doesn't seem to think this is an issue if you put weightings into the GAM. Given that the conversion is pretty easy I don't see why not, maybe people who actually do this have stronger opinions...
+\item $(x,y)$ smooths -- useful for taking into account spatial autocorrelation (at least in a primitive way)]]
+\item hope many resamples in the boostrap?
+\item how long should segments be?
+\item diagnostic checks: fitting to residuals, correlogram etc. New stuff in DSM.]]
+\end{itemize}
+[[tricky/time-consuming:
+\begin{itemize}
+\item binomial correction rationalisation -- see MVB doc
 
-[[lat/long to northings and eastings -- Mark B doesn't seem to think this is an issue if you put weightings into the GAM. Given that the conversion is pretty easy I don't see why not, maybe people who actually do this have stronger opinions...]]
+In the previous section, the incorporation of detection function uncertainty was covered. However, it was assumed that the detection function uncertainty affected the spatial part of the model, but that uncertainty in the spatial part did not affect the detection function.
 
-[[$(x,y)$ smooths -- useful for taking into account spatial autocorrelation (at least in a primitive way)]]
+\item random quantile residuals -- from MVB
+\item Comparing surveys through time?]]
+ \end{itemize}
 
-[[diagnostic checks: fitting to residuals, correlogram etc. New stuff in DSM.]]
 
-\section{Example}
+
+
+
+
+\section*{Example}
 \label{s:data}
 
 [[apply the above stuff; nice case study here, would be nice to have data that haven't been seen before; ideally with a complex boundary]]
 
+[[Mexico data? In Distance already!]]
 
 
 
 
 
-
-\section{Discussion}
+\section*{Discussion}
 \label{s:discussion}
 
 Discuss some things here.
 
 
-\subsection{Future work}
+\subsection*{Future work}
 
 [[temporal models]]
 
 [[using INLA?]]
 
+\subsubsection*{DOES THIS GO HERE???? Markov modulated Poisson processes}
+
+[[Cox process, we have $\lambda$ as a function. 
+Instead, make it a finite state Markov process -> matrix.
+Skaug just uses two states ``high'' and ``low'' ($\lambda_1< \lambda_2$).
+
+Make the levels a function of covariates via GLM or GAM]]
 
 
-%  The \backmatter command formats the subsequent headings so that they
-%  are in the journal style.  Please keep this command in your document
-%  in this position, right after the final section of the main part of 
-%  the paper and right before the Acknowledgements, Supplementary Materials,
-%  and References sections. 
 
-\backmatter
 
-%  This section is optional.  Here is where you will want to cite
-%  grants, people who helped with the paper, etc.  But keep it short!
 
-\section*{Acknowledgements}
+
+\section*{Acknowledgments}
 
 Mark Bravington, Sharon Hedley
 
-\vspace*{-8pt}
 
-%  If your paper refers to supplementary web material, then you MUST
-%  include this section!!  See Instructions for Authors at the journal
-%  website http://www.biometrics.tibs.org
-
-\section*{Supplementary Materials}
-
-[[talk about dsm, mrds, Distance here]]
-
-[data preparation stuff in appendix? -- will be on github]]
-
-Web Appendix A, referenced in Section~\ref{s:model}, is available under the Paper Information link at the Biometrics website {\tt http://www.biometrics.tibs.org}.\vspace*{-8pt}
-
-%  Here, we create the bibliographic entries manually, following the
-%  journal style.  If you use this method or use natbib, PLEASE PAY
-%  CAREFUL ATTENTION TO THE BIBLIOGRAPHIC STYLE IN A RECENT ISSUE OF
-%  THE JOURNAL AND FOLLOW IT!  Failure to follow stylistic conventions
-%  just lengthens the time spend copyediting your paper and hence its
-%  position in the publication queue should it be accepted.
-
-%  We greatly prefer that you incorporate the references for your
-%  article into the body of the article as we have done here 
-%  (you can use natbib or not as you choose) than use BiBTeX,
-%  so that your article is self-contained in one file.
-%  If you do use BiBTeX, please use the .bst file that comes with 
-%  the distribution.
-
-[[Add: CReSS, W+R, Ramsay, Soap, italy, msg]]
-
-\begin{thebibliography}{}
-% TKTKTK check that all of these are in!
-\bibitem{ } Buckland, S.T., Anderson, D.R., Burnham, K.P., Laake, J.L., Borchers, D.L., and Thomas, L.  (2001). \textit{Distance Sampling}. Oxford University Press. Oxford, UK.
-
-\bibitem{ } Buckland, S.T., Anderson, D.R., Burnham, K.P., Laake, J.L., Borchers, D.L., and Thomas, L.  (2004). \textit{Advanced Distance Sampling}. Oxford University Press. Oxford, UK.
-
-\bibitem{ } Cox, D.R. (1955). Some statistical methods connected with series of events. \textit{Journal of the Royal Statistical Society: Series B} \textbf{17} 129--164.
-
-\bibitem{ } Cox, D.R. and Isham, V. (1992) \textit{Point processes}. Monographs on Applied Probability and Statistics 12. Chapman \& Hall.
-
-\bibitem{ } Candy, S.G. (2004) Modelling catch and effort data using generalised linear models, the Tweedie distribution, random vessel effects and random stratum-by-year effects. \textit{CCAMLR Science} \textbf{11}, 59--80.
-
-\bibitem{ } Dunn, P.K. and Smyth, G.K. (2005) Series evaluation of Tweedie exponential dispersion models densities. \textit{Statistics and Computing} \textbf{15}, 267--280.
-
-\bibitem{} Green, P.J. (1995), Reversible Jump {M}arkov Chain {M}onte {C}arlo Computation and {B}ayesian Model Determination. \textit{Biometrika} \textbf{82}, 711--732.
-
-\bibitem{ } Hedley, S.L. and Buckland, S.T. (2004) Spatial Models for Line Transect Sampling. \textit{Journal of Agricultural, Biological, and Environmental Statistics} \textbf{9}(2), 181--199.
-
-\bibitem{ } Innes, S., Heide-J\o rgensen, M. P., Laake, J. L., Laidre, K. L., Cleator, H. J., Richard, P. and Stewart, R. E. A. (2002). Surveys of belugas and narwhals in the {C}anadian {H}igh {A}rctic in 1996. \textit{NAMMCO Scientific Publications} \textbf{4}, 169--190.
-
-\bibitem{ } Laake, J.L., Collier, B.A., Morrison, M.L. and Wilkins, R.N. (2011). Point-Based Mark-Recapture Distance Sampling. \textit{Journal of Agricultural, Biological, and Environmental Statistics}, \textbf{16}(3), 389--408.
-
-\bibitem{ } Marques, T.A., Thomas, L., Fancy, S.G., Buckland, S.T. (2007). Improving estimates of bird density using multiple-covariate distance sampling. \textit{The Auk} \textbf{124}(9), 1229--1243.
-
-\bibitem{} McCullagh, P. and Nelder, J.A. (1989). \textit{Generalized Linear Models}, 2nd edition. Chapman and Hall, London.
-
-\bibitem{} Niemi, A. and Fern\'andez (2010). Bayesian Spatial Point Process Modeling of Line Transect Data. \textit{Journal of Agricultural, Biological, and Environmental Statistics} \textbf{15}(3), 327--345.
-
-\bibitem{ } Thomas, L., Buckland, S.T., Rexstad, E.A., Laake, J.L., Strindberg, S., Hedley, S.L., Bishop, J.R.B., Marques, T.A. and Burnham, K.P. (2010). Distance software: design and analysis of distance sampling surveys for estimating population size. \textit{Journal of Applied Ecology} \textit{47}, 5--14.
-
-\bibitem{} Johnson, D. S., Laake, J. L. and Ver Hoef, J.M. (2010). A Model-Based Approach for Making Ecological Inference from Distance Sampling Data. \textit{Biometrics} \textbf{66}, 310--318.
-
-\bibitem{} Ruppert, D., Wand, M.P. and Carroll, R.J. (2003). \textit{Semiparametric regression}. Cambridge
-University Press, London.
-
-\bibitem{} Seber, G.A.F. (1982). \textit{The estimation of animal abundance and related parameters}. 2nd edition. Edward Arnold, London.
-
-\bibitem{} Williams, R., Hedley, S.L. and Hammond, P.S. (2006). Modeling distribution and abundance of {A}ntarctic baleen whales using ships of opportunity. \textit{Ecology and Society} \textbf{11}(1): 1.
-
-\bibitem{} Williams, R., Hedley, S.L., Branch, T.A., Bravington, M.V., Zerbini, A.N. and Findlay, K.P. (2011). Chilean Blue Whales as a Case Study to Illustrate Methods to Estimate Abundance and Evaluate Conservation Status of Rare Species. \textit{Conservation Biology} \textbf{25}(3), 526--535.
-
-\bibitem{} Wood, S.N. (2003). Thin plate regression splines. \textit{Journal of the Royal Statistical Society: Series B}, \textbf{65}(1) 95--114.
-
-\bibitem{} Wood, S.N. (2006). \textit{Generalized Additive Models: An Introduction with R}. Chapman \& Hall.
-
-%\bibitem{} Wood, S.N. (2011). Fast stable restricted maximum likelihood and marginal likelihood estimation of semiparametric generalized linear models. \textit{Journal of the Royal Statistical Society: Series B}, \textbf{73}(1), 3--36.
-
-\bibitem{} Wood, S.N., Bravington, M.V. and Hedley, S.L. (2008). Soap film smoothing. \textit{Journal of the Royal Statistical Society Series B} \textbf{70}(5), 931--55.
+\newpage
 
 
-\end{thebibliography}
+\bibliography{dsm-refs}
 
-\appendix
 
-%  To get the journal style of heading for an appendix, mimic the following.
+\newpage
 
-\section{}
-\subsection{Title of appendix}
 
-Put your short appendix here.  Remember, longer appendices are
-possible when presented as Supplementary Web Material.  Please 
-review and follow the journal policy for this material, available
-under Instructions for Authors at \texttt{http://www.biometrics.tibs.org}.
+\section*{Tables}
 
-\label{lastpage}
+
+%\begin{table}[h!]
+%  \caption{A first table caption.}
+%  \label{Tab1}
+%  \begin{center}
+%    \begin{tabular}{p{3cm}p{10cm}}
+%      Name & Description \\
+%      \hline
+%      Agri & Proportion of agricultural areas \\
+%      Alpine & Proportion of alpine areas \\
+%      Bare & Proportion of bare ground \\
+%      DEM & Mean elevation \\
+%      DEMslope & Mean slope \\
+%      \hline
+%    \end{tabular}
+%  \end{center}
+%\end{table}
+%
+%
+%\newpage
+%
+%
+%\begin{table}[h!]
+%  \caption{A second table caption, longer than the first one that was
+%quite short. Indeed, it was supposed to be short, at the contrary of this one which is
+%much more informative than the previous one.}
+%  \label{Tab2}
+%  \begin{center}
+%    \begin{tabular}{lrrr}
+%      Name & Mar & Spe1 & Spe2 \\
+%      \hline
+%      Agri & -0.050 & 0.026 & 0.173 \\
+%      Alpine & -0.874 & -0.139 & 0.184 \\
+%      Bare & -0.555 & -0.922 & 0.084 \\
+%      DEM & -0.796 & -0.100 & 0.095 \\
+%      DEMslope & -0.167 & -0.205 & 0.013 \\
+%      \hline
+%    \end{tabular}
+%  \end{center}
+%\end{table}
+
+
+\newpage
+
+
+\section*{Figures}
+
+
+%\begin{figure}[h!]
+%  \caption{What a nice figure\dots}
+%  \label{Fig1}
+%  \begin{center}
+%    \includegraphics[width=6cm]{Fig1}
+%  \end{center}
+%\end{figure}
+%
+%
+%\newpage
+%
+%
+%\begin{figure}[h!]
+%  \caption{Even nicer!}
+%  \label{Fig2}
+%  \begin{center}
+%    \includegraphics[width=6cm]{Fig2}
+%  \end{center}
+%\end{figure}
+
 
 \end{document}
