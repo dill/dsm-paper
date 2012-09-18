@@ -91,7 +91,7 @@ where the $f_k$s are smooth functions of the covariates in the GAM case and $\be
 If perpendicular distance is recorded and a CDS analysis is performed, we replace $A_j$ by $A_j\hat{P_a}$ in eqn \ref{e:stripgam}, where $\hat{P_a}$ is the probability of detection, making the offset the effective area of the segment. Modelling then operates in two stages, first a detection function is fitted to the distance data to obtain $\hat{P_a}$, then the following model is fitted:
 
 \begin{equation}
-\mathbb{E}(n_j) = \exp\left[ \log_e \left( A_j\hat{P_a} \rihgt) + \beta_0 + \sum_k f_k\left(\bm{z}_{jk}\right) \right],
+\mathbb{E}(n_j) = \exp\left[ \log_e \left( A_j\hat{P_a} \right) + \beta_0 + \sum_k f_k\left(\bm{z}_{jk}\right) \right],
 \label{e:gamn}
 \end{equation}
 
