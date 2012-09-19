@@ -68,56 +68,61 @@ From the point process description, two modelling procedures arise. One approach
 
 \cite{Johnson:2010gf} propose a point process-based model for distance sampling data (henceforth referred to as DSpat). They first assume that the locations of all individuals in the survey area (not just those which were observed) are a realisation of an inhomogeneous Poisson process which is a function of space. The authors then take the novel approach of allowing for separate (disjoint) regions of the survey area to have different detection functions associated with them. The sum of these detection functions is then used as a thinning of the Poisson process. The parameters are then found via standard maximum likelihood methods for point processes (see, e.g. \cite{Baddeley:2000to}). In contrast to \cite{Hedley:2004et}, parameters are estimated jointly so uncertainty from both the spatial pattern and the observation process is incorporated into variance estimates for the abundance. Concurrent estimation of the parameters also ensures that interactions between the thinning and underlying point process are estimated correctly. The authors also address the issue of overdispersion (commonly a symptom of animals or groups clustering), unmodelled by spatial covariates in a manner similar to that for GLMs (see \textit{Recent Developments}, below, for another approach). 
 
-\cite{Niemi:2010kx} also use Poisson processes but incorporate it into a fully Bayesian approach. Their intensity function takes the form of a product of a parametric function of the covariates and a mixture of Gaussian kernels as a spatial smooth. An appropriate degree of smoothing could be selected by putting prior distributions on the number and locations of the ``knots'' of the spatial smooth (the means of the Gaussian kernels) and then using reversible jump MCMC (\cite{GREEN:1995dg}). However, because the authors only include a single precision parameter for all of the kernels, small and large scale variation cannot both be accommodated. As in \cite{Johnson:2010gf}, the detection function was used as a thinning of the process, although (unlike DSpat) only one detection function was used across the whole region with known parameters. This means that unlike DSpat (but similar to the count model, above), the uncertainty in the detection function is not incorporated in the spatial model.
+\cite{Niemi:2010kx} also use Poisson processes but incorporate it into a fully Bayesian approach. Their intensity function takes the form of a product of a parametric function of the covariates and a mixture of Gaussian kernels as a spatial smooth. An appropriate degree of smoothing could be selected by putting prior distributions on the number and locations of the ``knots'' of the spatial smooth (the means of the Gaussian kernels) and then using reversible jump MCMC (\cite{GREEN:1995dg}). However, because the authors only include a single precision parameter for all of the kernels, small and large scale variation cannot both be accommodated. As in \cite{Johnson:2010gf}, the detection function was used as a thinning of the process, although (unlike DSpat) only one detection function was used across the whole region with known parameters. This means that detection function uncertainty is not incorporated in the spatial model.
 
 Both of the above Poisson process models do not account for group size, both stating that this could be included by considering a marked point process (\cite{cox1980point}, Section 5.5). Both methods offer direct modelling of the point process, although with some drawbacks compared to the methodology of \cite{Hedley:2004et}. It should be noted that the loss of efficiency from using a two-stage approach is not large (\cite{Buckland:2004ts}, p. 313). For these reasons, the article focuses on method of \cite{Hedley:2004et} and the advances which can be applied to their methodology.
 
 \section*{Density surface modelling}
 \label{s:dsm}
 
-We refer to the approach of \cite{Hedley:2004et} as \textit{density surface modelling} (DSM), this is used as a rather general description for modeling distance sampling data using spatially referenced data. The approach is incorporated into the popular software package Distance (\cite{Thomas:2010cf}). Rather than modelling the point process directly, DSM  uses a spatial model for the survey area using the counts, abundance (of individuals or groups) or observation density as response. The principle is simple: just as conventional and multiple covariate distance sampling (CDS and MCDS, respectively) extend strip transect sampling to the case where detection is not guaranteed, DSM extends a spatial model for strip transects to line and point transects.
+We refer to the approach of \cite{Hedley:2004et} as \textit{density surface modelling} (DSM), this is used as a rather general description for modeling distance sampling data using spatially referenced data. The approach is incorporated into the popular software package Distance (\cite{Thomas:2010cf}). [[\textbf{TKTKTK change this!}]]Rather than modelling the point process directly, DSM  uses a spatial model for the survey area using the counts, abundance (of individuals or groups) or observation density as response. The principle is simple: just as conventional and multiple covariate distance sampling (CDS and MCDS, respectively) extend strip transect sampling to the case where detection is not guaranteed, DSM extends a spatial model for strip transects to line and point transects.
 
-First, consider conducting a strip transect survey. Strips are divided into contiguous \textit{segments} (indexed by $j$), which are of length $l_j$; small enough such that the density does not vary a lot in the segment. For each of these segments, the number of individuals observed ($n_j$) is used as the response (see \textit{Practical advice}, below, for how to deal with size bias in grouped populations).  This count can then be modelled as a function of spatial and environmental covariates (the $\mathbf{z}_{jk}$ for $k$ indexing the covariates: e.g. location, sea surface temperature, weather conditions) using a generalized additive model (GAM; e.g. \cite{Wood:2006wz}). The covered area enters the model as an offset (the area of segment $j$, $A_j = 2wl_j$, where $w$ is the truncation distance). We can model the counts as a function of covariates measured for each segment:
+First, consider conducting a strip transect survey. Strips are divided into contiguous \textit{segments} (indexed by $j$), which are of length $l_j$; small enough such that the density does not vary a lot in the segment. For each of these segments, the number of individuals observed ($n_j$) is used as the response (see \textit{Practical advice}, below, for how to deal with size bias in grouped populations).  The count can then be modelled as a function of spatial and environmental covariates (the $\mathbf{z}_{jk}$ for $k$ indexing the covariates: e.g. location, sea surface temperature, weather conditions) using a generalized additive model (GAM; e.g. \cite{Wood:2006wz}). The covered area enters the model as an offset (the area of segment $j$, $A_j = 2wl_j$, where $w$ is the truncation distance). The model for the count per segment is:
 
 \begin{equation}
 \mathbb{E}(n_j) = \exp\left[ \log_e \left( A_j \right) + \beta_0 + \sum_k f_k\left(\bm{z}_{jk}\right) \right],
 \label{e:stripgam}
 \end{equation}
 
-where the $f_k$s are smooth functions of the covariates in the GAM case and $\beta_0$ is an intercept term. The distribution of $n_j$ is modelled as quasi-Poisson in Distance but other options are possible (see discussion of the Tweedie distribution, below).
+where the $f_k$s are smooth functions of the covariates in the GAM case and $\beta_0$ is an intercept term. The distribution of $n_j$ can then be modelled as overdispersed Poisson, negative binomial, or Tweedie (see \textit{Recent developments}, below) distribution.
 
 \subsection*{DSM with environmental-level covariates}
 
-If perpendicular distance is recorded and a CDS analysis is performed, we replace $A_j$ by $A_j\hat{P_a}$ in eqn \ref{e:stripgam}, where $\hat{P_a}$ is the probability of detection, making the offset the effective area of the segment. Modelling then operates in two stages, first a detection function is fitted to the distance data to obtain $\hat{P_a}$, then the following model is fitted:
+If perpendicular distance is recorded, the per-segment abundance can be estimated and used as the response. We first fit a detection function to the distances using CDS or MCDS methods. We then replace $n_j$ by a Horvitz-Thompson type estimator (\cite{Thompson:2002wi}) of abundance in the segment:
 
-\begin{equation}
-\mathbb{E}(n_j) = \exp\left[ \log_e \left( A_j\hat{P_a} \right) + \beta_0 + \sum_k f_k\left(\bm{z}_{jk}\right) \right],
-\label{e:gamn}
-\end{equation}
+\begin{equation*}
+\hat{N}_j = \sum_{r=1}^{R_j} \frac{s_{jr}}{\hat{p}_j}.
+%\label{e:HTseg}
+\end{equation*}
 
-This formulation can also be used for point transects by setting $A_j=w\pi^2$, $\forall j$. The above definition of the smooth terms is rather general because several covariates could be included in single smooth terms via tensor products of univariate bases (see \cite{Wood:2006wz}, Section 4.1.8) or via multivariate spline bases (e.g. thin plate regression splines; \cite{Wood:2003tc}). A typical use of a bivariate spline in this setting is to smooth with respect to spatial coordinates by including the centroid of the $j^\text{th}$ segment or point. Basis choice for spatial smooths is covered below. Note that even if location is not used, the model is still spatial (in some sense), because the covariates used in the GAM are spatially referenced.
+where $\hat{p}_j$ is the probability of detection in segment $j$ (although $\hat{p}_j=\hat{p}$, $\forall j$ if there are no covariates other than distance in the detection function). $R_j$ is the number observations in segment $j$ and $s_{jr}$ is the size of the $r^\text{th}$ group in segment $j$ (if the animals occur individually then $s_{jr}=1$, $\forall j,r$).
 
-If animals occur in groups or clusters, then the response variable in equation 2 could be either the number of groups to estimate group abundance or, if group size has been recorded, then the response variable could be the number of individuals per segment to estimate the individual abundance.
-
-%In the above form, the model implies that only group abundance can be calculated if data have been collected on groups or clusters of animals. This limitation can be alleviated by using a Horvitz-Thompson-type estimator of individual abundance and using this as the response.
-
-Figure \ref{dolphin-eda} (top panel) shows the raw observations from the dolphin data, along with the transect lines, overlaid on the depth data. Figure \ref{fits-depth} shows a GAM fitted to the dolphin data, the top panel shows predictions from a model where the counts were models as a smooth function of depth, the bottom panel shows predictions where a smooth of spatial location was also included. Further discussion of the plots follows in \textit{Practical advice}, below.
-
-\subsection*{DSM with covariates at the observation level}
-
-The above model only considers the case where the covariates are measured only at the segment/point level (which we refer to environmental or spatially-referenced covariates). Often covariates ($\bm{\zeta}_{ij}$, for individual/group $i$ in segment $j$) are collected on the level of individuals (or groups); for example sex, length or observer identity. A multiple covariate distance sampling analysis (MCDS; \cite{Marques:2003vb}, \cite{Marques:2007vm}) can then be performed and the probability of detection estimated as a function of the individual level covariates $\hat{P_a}(\bm{\zeta}_i)$. Individual level covariates can be incorporated into the model by making the response the Horvitz-Thompson estimator of per-segment abundance and altering the offset term to be covered area rather than the effective area:
+Having estimated the response for the GAM, the following model is fitted:
 
 \begin{equation}
 \mathbb{E}(\hat{N}_j) = \exp\left[ \log_e \left( A_j \right) + \beta_0 + \sum_k f_k\left(\bm{z}_{jk}\right) \right],
-\label{e:gamN}
+\label{e:gamn}
 \end{equation}
 
-for the multiple covariate case it is simply a case of estimating $\hat{N}_j$ for each segment via the usual Horvitz-Thompson-type estimator (\cite{Thompson:2002wi}:
+where $\hat{N}_j$, as with $n_j$, is assumed to follow an overdispersed Poisson, negative binomial, or Tweedie distribution.
+
+The above definition of the smooth terms is rather general because several covariates could be included in single smooth terms via tensor products of univariate bases (see \cite{Wood:2006wz}, Section 4.1.8) or via multivariate spline bases (e.g. thin plate regression splines; \cite{Wood:2003tc}), as well as simple linear terms or random effects. A typical use of a bivariate spline in this setting is to smooth with respect to spatial coordinates by including the centroid of the $j^\text{th}$ segment or point. Basis choice for spatial smooths is covered below. Note that even if location is not used, the model is still spatial (in some sense), because the covariates used in the GAM are spatially referenced.
+
+Data collected as point transects can also be analysed by setting $A_j=w\pi^2$, $\forall j$.
+
+Figure \ref{dolphin-eda} (top panel) shows the raw observations from the dolphin data, along with the transect lines, overlaid on the depth data. Figure \ref{fits-depth} shows a GAM fitted to the dolphin data, the top panel shows predictions from a model where depth was the only covariate, the bottom panel shows predictions where a (bivariate) smooth of spatial location was also included. Further discussion of the plots follows in \textit{Practical advice}, below.
+
+\subsection*{DSM with covariates at the observation level}
+
+The above model only considers the case where the covariates are measured only at the segment/point level. Often covariates ($\bm{\zeta}_{ij}$, for individual/group $i$ in segment $j$) are collected on the level of individuals; for example sex, length or observer identity. In this case the probability of detection is a function of the individual level covariates $\hat{p}(\bm{\zeta}_i)$. Individual level covariates can be incorporated into the model by adopting the following estimator of the per-segment abundance:
 
 \begin{equation*}
-\hat{N}_j = \sum_{i=1}^{n_j} \frac{1}{\hat{P_a}(\bm{\zeta}_{ij})}.
+\hat{N}_j = \sum_{r=1}^{R_j} \frac{s_{jr}}{\hat{p}(\bm{\zeta}_{ij})}.
 %\label{e:HTseg}
 \end{equation*}
+
+
+% A multiple covariate distance sampling analysis (MCDS; \cite{Marques:2003vb}, \cite{Marques:2007vm}) can then be performed and the probability of detection estimated as a function of the individual level covariates $\hat{P_a}(\bm{\zeta}_i)$. 
 
 \subsection*{Estimating abundance and investigating relationships}
 
