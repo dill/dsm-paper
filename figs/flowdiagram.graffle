@@ -233,7 +233,8 @@
 			<integer>147</integer>
 			<key>Points</key>
 			<array>
-				<string>{343.022, 199.777}</string>
+				<string>{351.61, 199.741}</string>
+				<string>{408.333, 330.667}</string>
 				<string>{444.333, 950.667}</string>
 				<string>{269.855, 1170.96}</string>
 			</array>
@@ -278,9 +279,10 @@
 			<integer>145</integer>
 			<key>Points</key>
 			<array>
-				<string>{344.856, 199.772}</string>
-				<string>{483, 895.598}</string>
-				<string>{386.595, 1207.38}</string>
+				<string>{356.646, 199.709}</string>
+				<string>{429.667, 319.667}</string>
+				<string>{483, 895.265}</string>
+				<string>{386.595, 1207.37}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -323,9 +325,9 @@
 			<integer>57</integer>
 			<key>Points</key>
 			<array>
-				<string>{382.372, 688.097}</string>
+				<string>{382.535, 688.57}</string>
 				<string>{468.333, 937.333}</string>
-				<string>{386.447, 1179.51}</string>
+				<string>{386.607, 1179.03}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -436,8 +438,8 @@
 			<integer>229</integer>
 			<key>Points</key>
 			<array>
-				<string>{281.449, 896.022}</string>
-				<string>{304.442, 932.839}</string>
+				<string>{281.476, 896.022}</string>
+				<string>{304.503, 932.838}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -868,7 +870,7 @@
 			<integer>218</integer>
 			<key>Points</key>
 			<array>
-				<string>{292.832, 1208.11}</string>
+				<string>{292.833, 1208.11}</string>
 				<string>{269.855, 1222.17}</string>
 			</array>
 			<key>Style</key>
@@ -1054,7 +1056,7 @@
 			<key>Points</key>
 			<array>
 				<string>{339.4, 199.782}</string>
-				<string>{339.853, 248.144}</string>
+				<string>{339.848, 247.644}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1538,7 +1540,7 @@
 			<key>Points</key>
 			<array>
 				<string>{219.187, 629.71}</string>
-				<string>{219.187, 659.251}</string>
+				<string>{219.187, 659.751}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -2096,7 +2098,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2012-10-26 14:38:32 -0400</string>
+	<string>2012-11-27 12:46:09 -0500</string>
 	<key>Modifier</key>
 	<string>David Lawrence Miller</string>
 	<key>NotesVisible</key>
@@ -2186,7 +2188,7 @@
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{-93, 425.333}, {1305.33, 848}}</string>
+		<string>{{-93, 362.667}, {1305.33, 848}}</string>
 		<key>Zoom</key>
 		<real>0.75</real>
 		<key>ZoomValues</key>
