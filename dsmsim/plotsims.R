@@ -27,12 +27,13 @@ density.plots[[3]] <- generate.density(myreg,nint.x = 100, nint.y = 50, southwes
 
 
 
-pdf("sim-plots.pdf",width=8,height=2.3+2.3/3)
+pdf("sim-plots.pdf",width=12,height=2.8)
 
 par(mfrow=c(1,3))
 for(i in 1:length(density.plots)){
-   image(density.plots[[i]]$matrix,asp=1,las=1)
-   contour(density.plots[[i]]$matrix,add=T)
+   image(density.plots[[i]]$matrix,asp=1,las=1,
+         x=seq(0,100,1),y=seq(0,50,1),xlab="x",ylab="y")
+   contour(z=density.plots[[i]]$matrix,x=seq(1,100,1),y=seq(1,50,1),add=T)
 }
 
 dev.off()
