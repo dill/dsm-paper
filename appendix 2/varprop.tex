@@ -1,0 +1,103 @@
+\documentclass[11pt]{amsart}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{epstopdf}
+\usepackage{times, natbib, bm}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Appendix B: Calculation of variance in density surface models}
+\author{David L. Miller}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+
+\section{Introduction}
+
+This appendix gives a brief mathematical explanation of the method proposed in \cite{WILLIAMS:2011in} for the propagation of uncertainty from the detection function to the DSM, as well as how to calculate the variance of a non-linear function of a GAM (e.g. when calculating the variance of the predicted abundance).
+
+\section{Variance propagation}
+
+The formulation for a ``count method'' density surface model (DSM) is:
+\begin{equation*}
+\mathbb{E}(n_j) = \exp\left[ \log\left(p_j(\bm{\theta})A_j\right) + \sum_{k=1}^K f_k(z_{jk}) \right],
+\end{equation*}
+where we model the expected number of animals per segment ($n_j$). The $f_k$s are smooth functions of the covariates and $\beta_0$ is an intercept term. $A_j$ is the covered area and the probability of detection is given by ($\hat{p}_j$) and is estimated from the detection function.
+
+Writing $\hat{p}_j$ explicitly as a function of the estimated detection function parameters $\bm{\hat{\theta}}$ and exponentiating both sides yields:
+\begin{align*}
+\exp\left[ \mathbb{E}(n_j) \right] &= \log\left[p_j(\bm{\hat{\theta}})A_j\right] + \sum_{k=1}^K f_k(z_{jk}), \\
+&= \log\left(A_j\right) + \log\left[p_j(\bm{\hat{\theta}})\right] + \sum_{k=1}^K f_k(z_{jk}).
+\end{align*}
+Now, let's add in another term to the model. The new term is the derivative of $\log\left[ \hat{p}(\bm{\hat{\theta}})\right]$ multiplied by $\gamma =(\bm{\theta} - \bm{\hat{\theta}})$.
+\begin{equation}
+\exp\left[ \mathbb{E}(n_j) \right] = \log\left(A_j\right) + \log\left[p_j(\bm{\hat{\theta}})\right] + \frac{ d \log p(\bm{\theta})}{d\bm{\theta}} \Big\vert_{\bm{\theta} = \hat{\bm{\theta}}} \gamma + \sum_{k=1}^K f_k(z_{jk}).
+\label{extra-term}
+\end{equation}
+This term has basically no effect on the model, since, using the definition of a finite difference:
+\begin{equation*}
+\frac{ d \log p(\bm{\theta})}{d\bm{\theta}} \Big\vert_{\bm{\theta} = \hat{\bm{\theta}}} = \left\{\log\left[p(\hat{\bm{\theta}} + \delta)\right] - \log\left[p(\hat{\bm{\theta}})\right]\right\}\delta^{-1},
+\end{equation*}
+we can write (\ref{extra-term}) as:
+\begin{align*}
+\exp\left[ \mathbb{E}(n_j) \right] &= \log\left(A_j\right) + \log\left[p_j(\bm{\hat{\theta}})\right] + \frac{ d \log p(\bm{\theta})}{d\bm{\theta}} \Big\vert_{\bm{\theta} = \hat{\bm{\theta}}} \gamma + \sum_{k=1}^K f_k(z_{jk}),\\
+&= \log\left(A_j\right) + \log\left[p_j(\bm{\hat{\theta}})\right] + \left\{\log\left[p(\hat{\bm{\theta}} + \delta)\right] - \log\left[p(\hat{\bm{\theta}})\right]\right\}\delta^{-1} \gamma + \sum_{k=1}^K f_k(z_{jk}).
+\end{align*}
+Assuming that $\bm{\theta}$ and $\bm{\hat{\theta}}$ are ``close'' we can say that $\gamma \approx \delta$, so:
+\begin{align*}
+\exp\left[ \mathbb{E}(n_j) \right] &\approx \log\left(A_j\right) + \log\left[p_j(\bm{\hat{\theta}})\right] + \log\left[p(\hat{\bm{\theta}} + (\bm{\theta} - \bm{\hat{\theta}}))\right] - \log\left[p(\hat{\bm{\theta}})\right] + \sum_{k=1}^K f_k(z_{jk})\\
+&\approx \log\left(A_j\right) + \log\left[p_j(\bm{\hat{\theta}})\right] + \log\left[p(\bm{\theta})\right] - \log\left[p(\hat{\bm{\theta}})\right] + \sum_{k=1}^K f_k(z_{jk})\\
+&\approx \log\left(A_j\right) + + \log\left[p(\bm{\theta})\right] + \sum_{k=1}^K f_k(z_{jk}).
+\end{align*}
+
+So this extra term does not have a large effect on the resulting GAM. It does however have an effect on the variance estimates derived from the model.
+
+\section{Calculating the variance of the abundance}
+
+To find the variance of the predicted abundance we are finding the variance of a function of the linear predictor (in the case of the abundance, this is simply the sum). We begin by revising some basic GAM theory before moving on to the specific case of DSMs. 
+
+When we have the identity link, finding the variance of some function of the model is relatively easy. The \texttt{lpmatrix} \citep[][page 245]{Wood:2006wz} is used, that is the matrix $\bm{X}_{p}$ such that:
+$$
+\hat{\bm{\eta}}_p = \bm{X}_{p} \hat{\bm{\beta}}
+$$
+ie. it maps the model parameters to the linear predictor. Since we can obtain $\bm{V}_{\beta}$, the parameter covariance matrix, we can then use $\bm{X}_{p}$ to find the covariance matrix for the linear predictor using:
+$$
+\bm{V}_{\hat{\eta}_p} = X_p \bm{V}_{\hat{\beta}} X_p^\text{T}
+$$
+linear functions of the linear predictor can be calculated using this method (just changing the pre- and post-multipier). 
+
+In the non-linear case (i.e. when the link is not identity), it's a bit more tricky. First note that the distribution of the parameters (given the data) is multivariate normal with mean as the parameter estimates and the covariance matrix of the parameters. (i.e. $\bm{\beta} \sim N(\hat{\bm{\beta}}, \bm{V_{\hat{\beta}}})$). 
+
+The following algorithm is suggested by \citep[][page 246]{Wood:2006wz} for the non-identity link case:
+\begin{enumerate}
+	\item For $b=1, \ldots, N_b$ do the following:
+	\begin{enumerate}
+    		\item Simulate from $\bm{\beta} \sim N(\hat{\bm{\beta}}, \bm{V_{\hat{\beta}}})$, to obtain $\bm{\beta}_b$.
+		\item Calculate $\hat{\eta}_b = \exp(\bm{X}_{p} \bm{\beta}_b)$ (e.g. if we are using the log-link)
+		\item Sum over the survey area
+	\end{enumerate}
+	\item  Calculate the appropriate summary statistics, e.g. median, 95% quantiles etc over $b$.
+\end{enumerate}
+
+This may well be unnecessary and it may well be easier and more efficient to use the delta method:
+$$
+\left(\frac{\partial^2 \log_e \eta}{\partial \eta^2} \Big{\vert}_{\eta=\hat{\eta}} \circledast \bm{X}_{p} \right) \bm{V}_{p} \left( \frac{\partial^2 \log_e \eta}{\partial \eta^2} \Big{\vert}_{\eta=\hat{\eta}} \circledast \bm{X}_{p} \right)^\text{T},
+$$
+where $\frac{\partial^2 \log_e \eta}{\partial \eta^2} \Big{\vert}_{\eta=\hat{\eta}}$ is the vector of second derivatives of the link evaluated at the values of the linear predictor and $\circledast$ denotes \textsf{R}-style matrix-vector multiplication. The delta method inflates the variance based on the uncertainty in the linear predictor.
+
+The delta method may be more useful in general because once the variance is so big that the delta method doesn't work, then the estimate is so bad that there is not much point in expending extra effort to work out bad it is.
+
+
+
+\bibliography{../dsm-refs.bib}
+\bibliographystyle{chicago}
+
+
+
+\end{document}  
