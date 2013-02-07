@@ -1,10 +1,11 @@
-#set.seed(100)
+# run the simulations to compare the 4 methods of varaince estimation
+
 
 library(mgcv)
-library(soap) #for inSide
 library(mrds)
 library(wisp)
 library(dsm)
+library(soap)
 
 source("line2seg.R")
 source("dist2seg.R")
@@ -35,22 +36,6 @@ density.plots[[2]] <- generate.density(myreg,nint.x = 100, nint.y = 50, southwes
 
 # 3 - gradient perpendicular transect length
 density.plots[[3]] <- generate.density(myreg,nint.x = 100, nint.y = 50, southwest = 100, southeast = 100, northwest = 1)
-
-## 4 - lots of splodges
-#density.plots[[4]] <- generate.density(myreg,nint.x = 100, nint.y = 50, southwest = 1, southeast = 1, northwest = 1)
-#for(i in 1:50){
-#   x<-runif(1,0,100)
-#   y<-runif(1,0,50)
-#   density.plots[[4]] <- add.hotspot(density.plots[[4]], x,y,10,3)
-#}
-
-
-#par(mfrow=c(2,2))
-#for(i in 1:length(density.plots)){
-#   image(density.plots[[i]]$matrix,asp=1)
-#   contour(density.plots[[i]]$matrix,add=T)
-#}
-
 
 for(samp.size in samp.sizes){
   i <- 1

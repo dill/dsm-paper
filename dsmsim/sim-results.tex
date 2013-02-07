@@ -7,11 +7,14 @@
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{epstopdf}
-\usepackage{times, natbib, bm}
+\usepackage{times, natbib, bm, url, subfigure}
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
-\title{Relative performance of GAM and bootstrap uncertainty estimation in DSM}
-\author{David L. Miller}
+\title{Appendix C: Relative performance of GAM and bootstrap uncertainty estimation in DSM}
+\author{David L. Miller \and
+M. Louise Burt \and
+Eric A. Rexstad \and 
+Len Thomas}
 %\date{}                                           % Activate to display a given date or no date
 
 \begin{document}
@@ -20,41 +23,95 @@
 
 \section{Introduction}
 
-This appendix gives a summary of a series of very simple simulations that were conducted to investigate the properties of the four methods of uncertainty estimation described in the article. These are:
+This appendix gives a summary of a series of very simple simulations that were conducted to investigate the properties of the four methods of uncertainty estimation described in the article. These are: moving block bootstrap (MBB; including detection function uncertainty via the delta method), moving block bootstrap with simulated detection function uncertainty (MBB+SDU; new distance generated from the fitted detection function), GAM uncertainty (GAMU; using standard GAM theory including detection function uncertainty via the delta method) and GAM uncertainty with variance propagation (VARPROP).
 
-\begin{itemize}
-\item \textbf{Moving block bootstrap}: 
-\item \textbf{Moving block bootstrap with detection function uncertainty}: 
-\item \textbf{GAM uncertainty}:
-\item \textbf{GAM uncertainty with variance propagation}:
-\end{itemize}
-
+Three (admittedly very simple) scenarios were tested; each consisted of a density based on a simple pattern. Creating a ``realistic'' scenario (e.g. including many covariates, correlation and so on) is not easy to construct and such a scenario would never encompass all of the possible combinations. As such, we decided to create three simple situations where it would be easy to discover whether there were difficulties with any of the above methods. The \textsf{R} \texttt{WiSP} (available at \url{http://www.ruwpa.st-and.ac.uk/estimating.abundance/WiSP/index.html}) was used to generate samples and the packages \texttt{dsm} and \texttt{Distance} (available from CRAN) were used to calculate the abundance estimates and corresponding confidence intervals.
 
 \section{Scenarios}
 
-Three (admittedly very simple) scenarios were tested; each consisted of a density based on a simple pattern. Creating a ``realistic'' scenario (e.g. including many covariates, correlation and so on) is not easy to construct and such a scenario would never encompass all of the possible combinations. As such, we decided to create three simple situations where it would be easy to discover whether there were difficulties with any of the above methods.
-
-The underlying density surfaces are shown in Figure \ref{sim-plots}.
+The underlying density surfaces are shown in Figure \ref{sim-plots}. For each of these scenarios, the population size was fixed (at 500 or 5000 individuals) and individuals were randomly placed in the survey area according to the density surface with group size generates from a Poisson distribution with mean 3. A grid of 14 transect lines (parallel to the $y$ axis) the ``height'' of the survey area were placed at a random starting point on the $x$ axis. Points were then detected based on a half-normal detection function with the following form:
+\begin{equation*}
+\mathbb{P}\left( \text{detected} \vert \text{individual at distance } x \right) = \exp \left( \frac{x^2}{2 \exp \left[ \theta_0 + \theta_1 E \right]} \right)
+\end{equation*}
+where $\theta_0$ and $\theta_1$ are the parameters and $x$ is the detection distance. Group exposure, $E$, was controlled using a Beta distribution with shape parameter 0.5 and mean 0.8.
 
 \begin{figure}[htbp]
 \begin{center}
-\includegraphics[width=\textwidth]{sim-plots.png}
+\includegraphics[width=\textwidth]{sim-plots}
 \caption{The three underlying density surfaces used in the simulation.}
 \label{sim-plots}
 \end{center}
 \end{figure}
 
+The observations were then allocated to segments (4 units square), and a DSM was fitted to the counts. Only a simple bivariate smooth of $x$ and $y$ was fitted to the per-segment counts, a  quasi-Poisson response was used.
 
+Once the model had been fitted, the variance of the predicted abundance was estimated using the four methods listed above. The two moving block bootstraps ran for 200 iterations with a block size of 5.
 
-
-
+For each combination of population size and underlying density surface 100 simulations were run. There were no convergence failures.
 
 \section{Results}
 
+\subsection{Population size 5000}
+
+When the true population size in the survey area was 5000, the number of detections was around 600, which seems more than adequate. 
+
+Figure \ref{res-5000} shows the confidence intervals calculated from each of the four methods for each simulation. The left column gives the simulations in order, the right column groups the same results by method. The larger population simulations show that the GAM and variance propagation methods give significantly smaller confidence intervals. 
+
+
+\begin{figure}
+\begin{center}
+\setlength{\tabcolsep}{0mm}
+\subfigure[]{%
+\begin{tabular}{c}
+\includegraphics*[width=0.4\textwidth]{results/res-5000-1-1.pdf}\\
+\includegraphics*[width=0.4\textwidth]{results/res-5000-2-1.pdf}\\
+\includegraphics*[width=0.4\textwidth]{results/res-5000-3-1.pdf}
+\end{tabular}
+}%
+\subfigure[]{%
+\begin{tabular}{c}
+\includegraphics*[width=0.4\textwidth]{results/res-5000-1-2.pdf}\\
+\includegraphics*[width=0.4\textwidth]{results/res-5000-2-2.pdf}\\
+\includegraphics*[width=0.4\textwidth]{results/res-5000-3-2.pdf}
+\end{tabular}
+}%
+\caption{Results of simulating populations of 5000 individuals in three scenarios (going down the page). Each coloured horizontal line indicates one simulation result and the black vertical line is truth. On the left side results are grouped by simulation and the blue lines give the point estimate of the population for a given simulation. On the right grouping is by method and the blue points indicate the corresponding point estimates.}
+\label{res-5000}
+\end{center}
+\end{figure}
+
+
+
+\subsection{Population size 500}
+
+For the smaller population size the number of detections drops to around 60 with the above parameters. In this situation, the GAM and variance propagation methods appear to have wider intervals than the bootstrap-based methods, however this does have the side effect that the confidence intervals cover truth more often and in general appear to have less erratic behaviour.
+
+
+\begin{figure}
+\begin{center}
+\setlength{\tabcolsep}{0mm}
+\subfigure[]{%
+\begin{tabular}{c}
+\includegraphics*[width=0.4\textwidth]{results/res-500-1-1.pdf}\\
+\includegraphics*[width=0.4\textwidth]{results/res-500-2-1.pdf}\\
+\includegraphics*[width=0.4\textwidth]{results/res-500-3-1.pdf}
+\end{tabular}
+}%
+\subfigure[]{%
+\begin{tabular}{c}
+\includegraphics*[width=0.4\textwidth]{results/res-500-1-2.pdf}\\
+\includegraphics*[width=0.4\textwidth]{results/res-500-2-2.pdf}\\
+\includegraphics*[width=0.4\textwidth]{results/res-500-3-2.pdf}
+\end{tabular}
+}%
+\caption{Results of simulating populations of 5000 individuals in three scenarios (going down the page). Each coloured horizontal line indicates one simulation result and the black vertical line is truth. On the left side results are grouped by simulation and the blue lines give the point estimate of the population for a given simulation. On the right grouping is by method and the blue points indicate the corresponding point estimates.}
+\label{res-500}
+\end{center}
+\end{figure}
 
 \section{Conclusion}
 
-
+Admittedly the simulation is rather simplistic, there is no attempt to incorporate other simulated environmental covariates and only a bivariate smooth of location was used in modelling. However, this set up has shown that when there is a large number of observations the GAM-based methods perform well with tighter confidence intervals and good coverage. In the situation when there are few observations, we see that (as one would expect) confidence intervals expand and appear more ``noisy''. However it is the moving block bootstrap with simulated detection function uncertainty that appear to suffer the most in terms of coverage.
 
 
 \bibliography{../dsm-refs.bib}

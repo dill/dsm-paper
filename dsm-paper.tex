@@ -50,7 +50,8 @@ Len Thomas$^{2}$.}
 
 When surveying biological populations it is increasingly common to record spatially referenced data, for example: coordinates of observations, habitat type, elevation or (if at sea) bathymetry. Spatial models allow for vast databases of spatially-referenced data \citep[e.g. OBIS-SEAMAP,][]{Halpin:2009je} to be harnessed, enabling investigation of interactions between environmental covariates and population densities. Mapping the spatial distribution of a population can be extremely useful, especially when communicating results to non-experts. Recent advances in both methodology and software have made spatial modelling readily available to the non-specialist \citep[e.g.,][]{Wood:2006wz, Rue:2009tw}. Here we use the term ``spatial model'' to include any model that includes spatially referenced covariates, not just smooths of location. This article is concerned with combining spatial modelling techniques with distance sampling \citep{Buckland:2001vm, Buckland:2004ts}. 
 
-Distance sampling takes plot sampling (counting all the individuals or groups of objects within a strip or circle) and extends it to the case where detection is not certain. Observers travel along lines or stand at points and record the distance from the  line or point to the object of interest ($y$). These distances are used to estimate the \textit{detection function}, $g(y)$ (bottom left panel, Fig. \ref{dolphin-eda}), by modelling the decrease in detectability with increasing distance from the line or point (conventional distance sampling, CDS). The detection function may also include covariates \citep[multiple covariate distance sampling, MCDS;][]{Marques:2007vm}. From the fitted detection function, the probability of detection can be calculated. The estimated probability that an animal is detected, $\hat{p}_i$, can then be used to calculate abundance as
+Distance sampling takes plot sampling (counting all the individuals or groups of objects within a strip or circle) and extends it to the case where detection is not certain. Observers move along lines or stand at points and record the distance from the  line or point to the object of interest ($y$). These distances are used to estimate the \textit{detection function}, $g(y)$ (bottom left panel, Fig. \ref{dolphin-eda}), by modelling the decrease in detectability with increasing distance from the line or point (conventional distance sampling, CDS). The detection function may also include covariates \citep[multiple covariate distance sampling, MCDS;][]{Marques:2007vm} which affect the scale of the detection function. From the fitted detection function, the probability of detection can be calculated. The estimated probability that an animal is detected, $\hat{p}_i$, can then be used to calculate abundance as
+
 \begin{equation}
 \hat{N} = \frac{A}{a} \sum_{i=1}^{n} \frac{1}{\hat{p}_i},
 \label{ht-est}
@@ -63,9 +64,9 @@ Estimators such as eqn (\ref{ht-est}) rely on the design of the study to ensure 
 
 Our aims in a DSM analysis are usually two-fold: (i) estimating overall abundance and (ii) investigating the relationship between abundance and environmental covariates. As with any predictions that are outside the range of the data, one should heed the usual warnings regarding extrapolation. For example, if a model contains elevation as a covariate, predictions at high, unsampled elevations are unlikely to be reliable. Frequently, maps of abundance or density are required and any spurious predictions can be visually assessed, as well as by plotting a histogram of the predicted values. A sensible definition of the region of interest avoid prediction outside the range of the data.
 
-This article reviews the current landscape of spatial modelling of distance sampling data, illustrating some recent developments most useful to applied ecologists. The methods discussed have available in the popular Windows application Distance \citep{Thomas:2010cf} for some time but the recent advances covered here have been implemented in a new \textsf{R} package (available on CRAN) \texttt{dsm} (and will be incorporated in to Distance).
+This article reviews the current landscape of spatial modelling of distance sampling data, illustrating some recent developments most useful to applied ecologists. The methods discussed have available in the popular Windows application Distance \citep{Thomas:2010cf} for some time but the recent advances covered here have been implemented in a new \textsf{R} package, \texttt{dsm} (which is available on CRAN and will be incorporated in to Distance).
 
-Throughout this article a motivating data set is used to illustrate the methods. These data are from a combination of several shipboard surveys conducted on pantropical spotted dolphins (\textit{Stenella attenuata}) in the Gulf of Mexico. 47 groups of dolphins were observed; group size was recorded, as well as the Beaufort sea state at the time of the observation. Coordinates for each observation and bathymetry data were also available as covariates for the analysis. A complete example analysis is provided as an online appendix. The data used in the analysis are available in the \textit{dsm} package and Distance.
+Throughout this article a motivating data set is used to illustrate the methods. These data are from a combination of several shipboard surveys conducted on pantropical spotted dolphins (\textit{Stenella attenuata}) in the Gulf of Mexico. 47 groups of dolphins were observed; group size was recorded, as well as the Beaufort sea state at the time of the observation. Coordinates for each observation and bathymetry data were available as covariates for the analysis. A complete example analysis is provided as an online appendix. The data used in the analysis are available in the \texttt{dsm} package and Distance.
 
 The rest of the article follows this structure: we first introduce the density surface modelling approach of \cite{Hedley:2004et}; explain how to estimate abundance and uncertainty; describe recent advances and provide practical advice regarding model fitting, formulation and checking. Before concluding, we review alternative (but less mature) methods which take a more direct approach to modelling spatial distance sampling data.
 
@@ -78,24 +79,27 @@ This section focuses on modelling the density/abundance estimation stage of dist
 \subsection*{Count as response}
 
 The model for the count per segment is:
+
 \begin{equation*}
 \mathbb{E}(n_j) = \exp\left[ \log_e \left( \hat{p}_j A_j \right) + \beta_0 + \sum_k f_k\left(z_{jk}\right) \right],
 \end{equation*}
 where the $f_k$s are smooth functions of the covariates and $\beta_0$ is an intercept term. Multiplying the covered area ($A_j$) by the probability of detection ($\hat{p}_j$) gives the \textit{effective area} for segment $j$. If there are no covariates other than distance in the detection function then the probability of detection is constant (i.e., $\hat{p}_j=\hat{p}$, $\forall j$). The distribution of $n_j$ can be modelled as overdispersed Poisson, negative binomial, or Tweedie distribution (see \textit{Recent developments}, below).
 
-Fig. \ref{dolphin-eda} (top panel) shows the raw observations of the dolphin data, along with the transect lines, overlaid on the depth data. Fig. \ref{fits-depth} shows a GAM fitted to the dolphin data, the top panel shows predictions from a model where depth was the only covariate, the bottom panel shows predictions where a (bivariate) smooth of spatial location was also included. 
+Fig. \ref{dolphin-eda} (top panel) shows the raw observations of the dolphin data, along with the transect lines, overlaid on the depth data. Fig. \ref{fits-depth} shows a DSM fitted to the dolphin data, the top panel shows predictions from a model where depth was the only covariate, the bottom panel shows predictions where a (bivariate) smooth of spatial location was also included. 
 
-Abundance estimation is not the only information that can be derived from these models. Plots of marginal smooths of the spatially referenced covariates show the relationships between the covariates and abundance. The effect of depth on abundance for the dolphin data can be seen in Fig. \ref{depth-gamplot}. 
+As well as simply calculating abundance estimates, relationships between covariates and abundance can be illustrated via plots of marginal smooths. The effect of depth on abundance for the dolphin data can be seen in Fig. \ref{depth-gamplot}. 
 
 \subsection*{Estimated abundance as response}
 
 An alternative to modelling counts would be to use the per-segment/circle abundance can be estimated using distance sampling methods and the estimated counts used as the response. In this case we replace $n_j$ by:
+
 \begin{equation*}
 \hat{N}_j = \sum_{r=1}^{R_j} \frac{s_{jr}}{\hat{p}_j},
 \end{equation*}
 where $R_j$ is the number observations in segment $j$ and $s_{jr}$ is the size of the $r^\text{th}$ group in segment $j$ (if the animals occur individually then $s_{jr}=1$, $\forall j,r$). 
 
 The following model is then fitted:
+
 \begin{equation*}
 \mathbb{E}(\hat{N}_j) = \exp\left[ \log_e \left( A_j \right) + \beta_0 + \sum_k f_k\left(\bm{z}_{jk}\right) \right],
 \end{equation*}
@@ -131,6 +135,7 @@ From the predicted values stored in the last step the variance originating in th
 
 The above procedure assumes that there is no correlation in space between segments however, if many animals are observed in a particular segment then we might expect there to be high numbers in the adjacent segments. A moving block bootstrap \citep[MBB;][Section 8.6]{Efron:1993tv} can account for some of this spatial autocorrelation in the variance estimation. The segments are grouped together into overlapping blocks, (so if the block size is 5, block one is segments $1,\ldots,5$, block two is segments $2,\ldots,6$, and so on). Then, at step (2) above, resamples are taken of the blocks (contiguous collections of segments) rather than individual segments within the transects. Using blocks should account for some of the autocorrelation between the segments, inflating the variances accordingly. However, because the block size dictates the maximum amount of spatial autocorrelation accounted for, this may not fully account for the autocorrelation. These bootstrap procedures can also be modified to take into account detection function uncertainty by generating new distances from the fitted detection function and then re-calculating the offset by fitting a detection function to the new distances.
  
+DSM uncertainty can be visualised via a plot of per-cell coefficient of variation obtained by dividing the standard error for each cell by its predicted abundance. 
 
 \section*{Recent developments}
 \label{s:recentadvances}
@@ -147,9 +152,9 @@ Rather than using a bootstrap, one can use GAM theory to construct uncertainty e
 \end{enumerate}
 A more complete mathematical explanation of this result is given in Appendix B.
 
-We consider that propagating the uncertainty in this manner is not only more computationally efficient but also preferable from a technical perspective. A moving block bootstrap does not fully account for spatial autocorrelation. Assuming that the residuals are exchangeable when they are not will lead to wider confidence intervals. The confidence intervals produced via the above method are narrower than their bootstrap equivalents, while maintaining good coverage (results of a small simulation study are given in Appendix C.
+We consider that propagating the uncertainty in this manner is not only more computationally efficient but also preferable from a technical perspective. A moving block bootstrap does not fully account for spatial autocorrelation. Assuming that the residuals are exchangeable when they are not will lead to wider confidence intervals. The confidence intervals produced via the above method are narrower than their bootstrap equivalents, while maintaining good coverage (results of a small simulation study are given in Appendix C).
 
-DSM uncertainty can be visualised via a plot of per-cell coefficient of variation obtained by dividing the standard error for each cell by its predicted abundance. Fig. \ref{cv-plot} shows a map of the coefficient of variation for the model which includes both location and depth covariates using the variance propagation method. 
+Fig. \ref{cv-plot} shows a map of the coefficient of variation for the model which includes both location and depth covariates. Variance has been calculated using the variance propagation method. 
 
 \subsection*{Edge effects}
 \label{s:leakage}
@@ -201,7 +206,8 @@ Rather than use a GAM to model the spatially explicit part of the model, two rec
 
 Both of the above Poisson process models do not account for group size, but both state that this could be included by considering a marked point process \citep[Section 5.5]{cox1980point}. Both methods offer direct modelling of the point process, although with some drawbacks compared to the methodology of \cite{Hedley:2004et}. It should be noted that the loss of efficiency from using DSM is not large \citep[p. 313]{Buckland:2004ts} because distances contain little information about spatial variation due to how thin transects are compared to their lengths and how small circles are compared to the study area.
 
-\textbf{LEN}Other examples of direct modelling of density are \cite{Royle:2004tu} and \cite{Royle:2008wc}.
+A final example of direct modelling of density is given in \cite{Royle:2004tu}. In their article, the authors formulate an unconditional likelihood per-point/line, which is a function of the unobserved point/transect abundances. These unobserved abundances are treated as (Poisson or negative binomial) random effects, which are then integrated out to give a per-point/line likelihood which is a function only of detection function parameters and parameters of the random effects (linear functions of the environmental covariates). Due to the multinomial nature of the per-point/line likelihood proposed distance data must be binned, resulting in a loss of information. Although an arbitrarily large number of bins could be used as an approximation, this is both inelegant and computationally intensive.
+
 
 \section*{Discussion}
 \label{s:discussion}
