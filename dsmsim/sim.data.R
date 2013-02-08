@@ -4,16 +4,16 @@ sim.data<-function(mydens,n.groups,n.transects){
    # at the moment no groups
    lt.poppars<-setpars.population(density.pop=mydens, number.groups=n.groups,
                                   size.method="poisson",size.min=1,size.max=10,
-                                  size.mean=3, exposure.method="beta",
-                                  exposure.min=0,exposure.max=1,
-                                  exposure.mean=0.8, exposure.shape=0.5)
+                                  size.mean=3, exposure.method="user",
+                                  exposure.min=1,exposure.max=1,
+                                  exposure.mean=1, exposure.shape=1)
    lt.pop<-generate.population(lt.poppars)
    lt.despars<-setpars.design.lt(myreg,n.transects=n.transects,
                                  n.units=n.transects, visual.range=1,
                                  percent.on.effort=100)
    lt.des<-generate.design.lt(lt.despars)#, seed=3)
-   lt.survpars<-setpars.survey.lt(lt.pop, lt.des, disthalf.min=0.15,
-                                  disthalf.max=0.5)
+   lt.survpars<-setpars.survey.lt(lt.pop, lt.des, disthalf.min=0.7,
+                                  disthalf.max=0.7)
    lt.samp<-generate.sample.lt(lt.survpars)
    #summary(lt.samp)
    #plot.density.sample.3d(mydens,lt.samp, scale.fact=1.5)

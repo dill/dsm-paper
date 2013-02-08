@@ -29,11 +29,7 @@ Three (admittedly very simple) scenarios were tested; each consisted of a densit
 
 \section{Scenarios}
 
-The underlying density surfaces are shown in Figure \ref{sim-plots}. For each of these scenarios, the population size was fixed (at 500 or 5000 individuals) and individuals were randomly placed in the survey area according to the density surface with group size generates from a Poisson distribution with mean 3. A grid of 14 transect lines (parallel to the $y$ axis) the ``height'' of the survey area were placed at a random starting point on the $x$ axis. Points were then detected based on a half-normal detection function with the following form:
-\begin{equation*}
-\mathbb{P}\left( \text{detected} \vert \text{individual at distance } x \right) = \exp \left( \frac{x^2}{2 \exp \left[ \theta_0 + \theta_1 E \right]} \right)
-\end{equation*}
-where $\theta_0$ and $\theta_1$ are the parameters and $x$ is the detection distance. Group exposure, $E$, was controlled using a Beta distribution with shape parameter 0.5 and mean 0.8.
+The underlying density surfaces are shown in Figure \ref{sim-plots}. For each of these scenarios, the population size was fixed (at 500 or 5000 individuals) and individuals were randomly placed in the survey area according to the density surface with group size generates from a Poisson distribution with mean 3. A grid of 14 transect lines (parallel to the $y$ axis) the ``height'' of the survey area were placed at a random starting point on the $x$ axis. Points were then detected based on a half-normal detection function with a scale parameter of 0.7, the truncation distance was set to 1.
 
 \begin{figure}[htbp]
 \begin{center}
@@ -43,7 +39,7 @@ where $\theta_0$ and $\theta_1$ are the parameters and $x$ is the detection dist
 \end{center}
 \end{figure}
 
-The observations were then allocated to segments (4 units square), and a DSM was fitted to the counts. Only a simple bivariate smooth of $x$ and $y$ was fitted to the per-segment counts, a  quasi-Poisson response was used.
+The observations were then allocated to 2 by 2 segments, and a DSM was fitted to the counts. Only a simple bivariate smooth of $x$ and $y$ was fitted to the per-segment counts, a  quasi-Poisson response was used.
 
 Once the model had been fitted, the variance of the predicted abundance was estimated using the four methods listed above. The two moving block bootstraps ran for 200 iterations with a block size of 5.
 
@@ -53,7 +49,7 @@ For each combination of population size and underlying density surface 100 simul
 
 \subsection{Population size 5000}
 
-When the true population size in the survey area was 5000, the number of detections was around 600, which seems more than adequate. 
+When the true population size in the survey area was 5000, the number of detections was around 900, which seems more than adequate. 
 
 Figure \ref{res-5000} shows the confidence intervals calculated from each of the four methods for each simulation. The left column gives the simulations in order, the right column groups the same results by method. The larger population simulations show that the GAM and variance propagation methods give significantly smaller confidence intervals. 
 
@@ -84,7 +80,7 @@ Figure \ref{res-5000} shows the confidence intervals calculated from each of the
 
 \subsection{Population size 500}
 
-For the smaller population size the number of detections drops to around 60 with the above parameters. In this situation, the GAM and variance propagation methods appear to have wider intervals than the bootstrap-based methods, however this does have the side effect that the confidence intervals cover truth more often and in general appear to have less erratic behaviour.
+For the smaller population size the number of detections was around 90. In this situation, the GAM and variance propagation methods appear to have wider intervals than the bootstrap-based methods, however this does have the side effect that the confidence intervals cover truth more often and in general appear to have less erratic behaviour.
 
 
 \begin{figure}
@@ -92,16 +88,16 @@ For the smaller population size the number of detections drops to around 60 with
 \setlength{\tabcolsep}{0mm}
 \subfigure[]{%
 \begin{tabular}{c}
-\includegraphics*[width=0.4\textwidth]{results/res-500-1-1.pdf}\\
-\includegraphics*[width=0.4\textwidth]{results/res-500-2-1.pdf}\\
-\includegraphics*[width=0.4\textwidth]{results/res-500-3-1.pdf}
+\includegraphics*[width=0.4\textwidth]{res-500-1-1.pdf}\\
+\includegraphics*[width=0.4\textwidth]{res-500-2-1.pdf}\\
+%\includegraphics*[width=0.4\textwidth]{res-500-3-1.pdf}
 \end{tabular}
 }%
 \subfigure[]{%
 \begin{tabular}{c}
-\includegraphics*[width=0.4\textwidth]{results/res-500-1-2.pdf}\\
-\includegraphics*[width=0.4\textwidth]{results/res-500-2-2.pdf}\\
-\includegraphics*[width=0.4\textwidth]{results/res-500-3-2.pdf}
+\includegraphics*[width=0.4\textwidth]{res-500-1-2.pdf}\\
+\includegraphics*[width=0.4\textwidth]{res-500-2-2.pdf}\\
+%\includegraphics*[width=0.4\textwidth]{res-500-3-2.pdf}
 \end{tabular}
 }%
 \caption{Results of simulating populations of 5000 individuals in three scenarios (going down the page). Each coloured horizontal line indicates one simulation result and the black vertical line is truth. On the left side results are grouped by simulation and the blue lines give the point estimate of the population for a given simulation. On the right grouping is by method and the blue points indicate the corresponding point estimates.}
@@ -111,8 +107,9 @@ For the smaller population size the number of detections drops to around 60 with
 
 \section{Conclusion}
 
-Admittedly the simulation is rather simplistic, there is no attempt to incorporate other simulated environmental covariates and only a bivariate smooth of location was used in modelling. However, this set up has shown that when there is a large number of observations the GAM-based methods perform well with tighter confidence intervals and good coverage. In the situation when there are few observations, we see that (as one would expect) confidence intervals expand and appear more ``noisy''. However it is the moving block bootstrap with simulated detection function uncertainty that appear to suffer the most in terms of coverage.
+Admittedly the simulation is rather simplistic, there is no attempt to incorporate other simulated environmental covariates and only a bivariate smooth of location was used in modelling. However, this set up has shown that when there is a large number of observations the GAM-based methods perform well with tighter confidence intervals and good coverage. In the situation when there are fewer observations, we see that (as one would expect) confidence intervals expand and appear more ``noisy''. It is the moving block bootstrap with simulated detection function uncertainty that appear to suffer the most, being tighter than the other methods but with more chaotic behaviour.
 
+Given the significant difference in time taken to calculate the GAM-based intervals and the bootstraps, it seems highly prudent to use the former especially if it is necessary to obtain uncertainty estimates for a white variety of models in a short period of time.
 
 \bibliography{../dsm-refs.bib}
 

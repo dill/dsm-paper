@@ -5,7 +5,7 @@ line2seg<-function(lt.spatdat,transects){
    # need to calculate the number of splits
    # from the lengths, keep it simple here!
    seg.len<-2*transects$width[1] # move inside loop eventually?
-   
+
    # do something smart here!
    n.segs<-ceiling(abs(transects$end.y[1]-transects$start.y[1])/seg.len)
    segments<-c()
