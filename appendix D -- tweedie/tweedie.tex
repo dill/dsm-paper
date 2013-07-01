@@ -1,0 +1,50 @@
+\documentclass[11pt]{amsart}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{a4paper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{epstopdf}
+\usepackage{times, natbib, bm}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{{\Small Spatial models for distance sampling data:\\ recent developments and future directions}\\ \mbox{} \\ Appendix D: Details of the Tweedie distribution}
+
+\author{David L. Miller, M. Louise Burt, Eric A. Rexstad and Len Thomas}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+
+\section{Introduction}
+
+This appendix gives a brief mathematical explanation of the Tweedie distribution.
+
+\section{The Tweedie distribution}
+
+The Tweedie distribution has three parameters: a mean ($\mu$), dispersion ($\phi$) and a third, power parameter ($p$), which leads to additional flexibility. The Tweedie distribution is characterised by the mean-variance relationship $\text{var}(Y) = \phi\mu^p$. Setting $p=1$ gives a quasi-Poisson distribution and $p=2$ gives a gamma distribution. Tweedie random variables are a sum of $M$ gamma variables where $M$ is Poisson distributed \citep{Jorgensen:1987vg}.
+
+The Tweedie distribution has the following PDF (for $1<p<2)$):
+
+\begin{equation*}
+f(y; \mu, \phi, p) = a(y;\phi)\exp \left [ \frac{1}{\phi} \left\{ y\frac{\mu^{1-p}}{1-p} - \frac{\mu^{2-p}}{2-p} \right \} \right ],
+\end{equation*}
+
+where
+
+\begin{equation*}
+a(y;\phi) = \frac{1}{y} \sum_{j=1}^\infty \frac{y^{-j\alpha}{(p-1)^{\alpha j}}}{\phi^{j(1-\alpha)} (2-p)^j j! \Gamma(-j\alpha)}, \qquad \alpha = \frac{2-p}{1-p}
+\end{equation*}
+
+Further technical information can be found in \cite{Jorgensen:1987vg,Dunn:2005wp} and practical applications can be found in \cite{Candy:2004tb, Shono:2008ge, Peel:2012jc}.
+
+
+\bibliography{../dsm-refs.bib}
+\bibliographystyle{chicago}
+
+
+
+\end{document}  

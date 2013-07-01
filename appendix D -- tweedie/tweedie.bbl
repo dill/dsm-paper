@@ -1,0 +1,35 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citeauthoryear{Candy}{Candy}{2004}]{Candy:2004tb}
+Candy, S. (2004).
+\newblock {Modelling catch and effort data using generalised linear models, the
+  Tweedie distribution, random vessel effects and random stratum-by-year
+  effects}.
+\newblock {\em {CCAMLR} Science\/}~{\em 11}, 59--80.
+
+\bibitem[\protect\citeauthoryear{Dunn and Smyth}{Dunn and
+  Smyth}{2005}]{Dunn:2005wp}
+Dunn, P. and G.~Smyth (2005).
+\newblock {Series evaluation of Tweedie exponential dispersion models}.
+\newblock {\em Statistics and Computing\/}~{\em 15}, 267--280.
+
+\bibitem[\protect\citeauthoryear{J{\o}rgensen}{J{\o}rgensen}{1987}]{Jorgensen:1987vg}
+J{\o}rgensen, B. (1987).
+\newblock {Exponential dispersion models}.
+\newblock {\em Journal of the Royal Statistical Society. Series B, Statistical
+  Methodology\/}~{\em 49}, 127--162.
+
+\bibitem[\protect\citeauthoryear{Peel, Bravington, Kelly, Wood, and
+  Knuckey}{Peel et~al.}{2012}]{Peel:2012jc}
+Peel, D., M.~V. Bravington, N.~Kelly, S.~N. Wood, and I.~Knuckey (2012).
+\newblock {A Model-Based Approach to Designing a Fishery-Independent Survey}.
+\newblock {\em Journal of Agricultural, Biological, and Environmental
+  Statistics\/}~{\em 18\/}(1), 1--21.
+
+\bibitem[\protect\citeauthoryear{Shono}{Shono}{2008}]{Shono:2008ge}
+Shono, H. (2008).
+\newblock {Application of the {T}weedie distribution to zero-catch data in
+  {CPUE} analysis}.
+\newblock {\em Fisheries Research\/}~{\em 93\/}(1-2), 154--162.
+
+\end{thebibliography}

@@ -1,6 +1,6 @@
 \documentclass[11pt]{amsart}
 \usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
-\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+\geometry{a4paper}                   % ... or a4paper or a5paper or ... 
 %\geometry{landscape}                % Activate for for rotated page geometry
 %\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
 \usepackage{graphicx}
@@ -10,7 +10,7 @@
 \usepackage{times, natbib, bm, url, subfigure}
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
-\title{Appendix C: Relative performance of GAM and bootstrap uncertainty estimation in DSM}
+\title{{\Small Spatial models for distance sampling data:\\ recent developments and future directions}\\ \mbox{} \\ Appendix C: Relative performance of GAM and bootstrap uncertainty estimation in DSM}
 \author{David L. Miller \and
 M. Louise Burt \and
 Eric A. Rexstad \and 
@@ -107,9 +107,9 @@ For the smaller population size the number of detections was around 90. In this 
 
 \section{Conclusion}
 
-Admittedly the simulation is rather simplistic, there is no attempt to incorporate other simulated environmental covariates and only a bivariate smooth of location was used in modelling. However, this set up has shown that when there is a large number of observations the GAM-based methods perform well with tighter confidence intervals and good coverage. In the situation where there were fewer observations, we see that (as one would expect) confidence intervals expand and appear more ``noisy''. It is the moving block bootstrap with simulated detection function uncertainty that appear to suffer the most, being tighter than the other methods but with more chaotic behaviour.
+Admittedly the simulation is rather simplistic: there is no attempt to incorporate other simulated environmental covariates and only a bivariate smooth of location was used in modelling. However, this set up has shown that when there are a large number of observations the GAM-based methods perform well, with tighter confidence intervals and good coverage. In the situation where there are fewer observations, we see that (as one would expect) confidence intervals expand and appears more ``noisy''. It is the moving block bootstrap with simulated detection function uncertainty that appear to suffer the most, having tighter confidence intervals than the other methods but with more erratic behaviour.
 
-Given the significant difference in time taken to calculate the GAM-based intervals and the bootstraps, it seems highly prudent to use the former especially if it is necessary to obtain uncertainty estimates for a white variety of models in a short period of time.
+Given the significant difference in time taken to calculate the GAM-based intervals and the bootstraps, it seems highly prudent to use the former, especially if it is necessary to obtain uncertainty estimates for a wide variety of models in a short period of time.
 
 \bibliography{../dsm-refs.bib}
 
