@@ -96,9 +96,9 @@ In practice $N_b$ does not have to be particularly large, \cite{Marra:2011eq} ac
 
 Simulation may well be unnecessary and it may well be easier and more efficient to use the delta method:
 $$
-\left(\frac{\partial^2 \log_e \eta}{\partial \eta^2} \Big{\vert}_{\eta=\hat{\eta}} \circledast \bm{X}_{p} \right) \bm{V}_{p} \left( \frac{\partial^2 \log_e \eta}{\partial \eta^2} \Big{\vert}_{\eta=\hat{\eta}} \circledast \bm{X}_{p} \right)^\text{T},
+\left(\frac{\partial \log_e \eta}{\partial \eta} \Big{\vert}_{\eta=\hat{\eta}} \circledast \bm{X}_{p} \right) \bm{V}_{p} \left( \frac{\partial \log_e \eta}{\partial \eta} \Big{\vert}_{\eta=\hat{\eta}} \circledast \bm{X}_{p} \right)^\text{T},
 $$
-where $\frac{\partial^2 \log_e \eta}{\partial \eta^2} \Big{\vert}_{\eta=\hat{\eta}}$ is the vector of second derivatives of the link evaluated at the values of the linear predictor and $\circledast$ denotes \textsf{R}-style matrix-vector multiplication. The delta method inflates the variance based on the uncertainty in the linear predictor.
+where $\frac{\partial \log_e \eta}{\partial \eta} \Big{\vert}_{\eta=\hat{\eta}}$ is the vector of derivatives of the link evaluated at the values of the linear predictor and $\circledast$ denotes \textsf{R}-style matrix-vector multiplication. The delta method inflates the variance based on the uncertainty in the linear predictor.
 
 
 \bibliography{../dsm-refs.bib}
