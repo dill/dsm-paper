@@ -32,12 +32,12 @@ where we model the expected number of animals per segment ($n_j$). The $f_k$s ar
 
 Writing $\hat{p}_j$ explicitly as a function of the estimated detection function parameters $\bm{\hat{\theta}}$ and exponentiating both sides yields:
 \begin{align*}
-\exp\left[ \mathbb{E}(n_j) \right] &= \log\left[p_j(\bm{\hat{\theta}})A_j\right] + \sum_{k=1}^K f_k(z_{jk}), \\
+\log\left[ \mathbb{E}(n_j) \right] &= \log\left[p_j(\bm{\hat{\theta}})A_j\right] + \sum_{k=1}^K f_k(z_{jk}), \\
 &= \log\left(A_j\right) + \log\left[p_j(\bm{\hat{\theta}})\right] + \sum_{k=1}^K f_k(z_{jk}).
 \end{align*}
 At this point we add another term to the model. This new term is the derivative of $\log\left[ \hat{p}(\bm{\hat{\theta}})\right]$ multiplied by $\gamma =(\bm{\theta} - \bm{\hat{\theta}})$.
 \begin{equation}
-\exp\left[ \mathbb{E}(n_j) \right] = \log\left(A_j\right) + \log\left[p_j(\bm{\hat{\theta}})\right] + \frac{ d \log p(\bm{\theta})}{d\bm{\theta}} \Big\vert_{\bm{\theta} = \hat{\bm{\theta}}} \gamma + \sum_{k=1}^K f_k(z_{jk}).
+\log\left[ \mathbb{E}(n_j) \right] = \log\left(A_j\right) + \log\left[p_j(\bm{\hat{\theta}})\right] + \frac{ d \log p(\bm{\theta})}{d\bm{\theta}} \Big\vert_{\bm{\theta} = \hat{\bm{\theta}}} \gamma + \sum_{k=1}^K f_k(z_{jk}).
 \label{extra-term}
 \end{equation}
 This term has basically no effect on the model, since, using the definition of a finite difference:
@@ -48,12 +48,12 @@ This term has basically no effect on the model, since, using the definition of a
 
 We may then write (\ref{extra-term}) as:
 \begin{align*}
-\exp\left[ \mathbb{E}(n_j) \right] &= \log\left(A_j\right) + \log\left[p_j(\bm{\hat{\theta}})\right] + \frac{ d \log p(\bm{\theta})}{d\bm{\theta}} \Big\vert_{\bm{\theta} = \hat{\bm{\theta}}} \gamma + \sum_{k=1}^K f_k(z_{jk}),\\
+\log\left[ \mathbb{E}(n_j) \right] &= \log\left(A_j\right) + \log\left[p_j(\bm{\hat{\theta}})\right] + \frac{ d \log p(\bm{\theta})}{d\bm{\theta}} \Big\vert_{\bm{\theta} = \hat{\bm{\theta}}} \gamma + \sum_{k=1}^K f_k(z_{jk}),\\
 &= \log\left(A_j\right) + \log\left[p_j(\bm{\hat{\theta}})\right] + \left\{\log\left[p(\hat{\bm{\theta}} + \delta)\right] - \log\left[p(\hat{\bm{\theta}})\right]\right\}\delta^{-1} \gamma + \sum_{k=1}^K f_k(z_{jk}).
 \end{align*}
 Assuming that $\bm{\theta}$ and $\bm{\hat{\theta}}$ are ``close'' we can say that $\gamma \approx \delta$, so:
 \begin{align*}
-\exp\left[ \mathbb{E}(n_j) \right] &\approx \log\left(A_j\right) + \log\left[p_j(\bm{\hat{\theta}})\right] + \log\left[p(\hat{\bm{\theta}} + (\bm{\theta} - \bm{\hat{\theta}}))\right] - \log\left[p(\hat{\bm{\theta}})\right] + \sum_{k=1}^K f_k(z_{jk})\\
+\log\left[ \mathbb{E}(n_j) \right] &\approx \log\left(A_j\right) + \log\left[p_j(\bm{\hat{\theta}})\right] + \log\left[p(\hat{\bm{\theta}} + (\bm{\theta} - \bm{\hat{\theta}}))\right] - \log\left[p(\hat{\bm{\theta}})\right] + \sum_{k=1}^K f_k(z_{jk})\\
 &\approx \log\left(A_j\right) + \log\left[p_j(\bm{\hat{\theta}})\right] + \log\left[p(\bm{\theta})\right] - \log\left[p(\hat{\bm{\theta}})\right] + \sum_{k=1}^K f_k(z_{jk})\\
 &\approx \log\left(A_j\right) + + \log\left[p(\bm{\theta})\right] + \sum_{k=1}^K f_k(z_{jk}).
 \end{align*}
