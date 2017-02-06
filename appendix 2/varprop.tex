@@ -30,7 +30,7 @@ The formulation for a ``count method'' density surface model (DSM) is:
 \end{equation*}
 where we model the expected number of animals per segment ($n_j$). The $f_k$s are smooth functions of the covariates and $\beta_0$ is an intercept term. $A_j$ is the covered area and the probability of detection is given by ($\hat{p}_j$) and is estimated from the detection function.
 
-Writing $\hat{p}_j$ explicitly as a function of the estimated detection function parameters $\bm{\hat{\theta}}$ and exponentiating both sides yields:
+Writing $\hat{p}_j$ explicitly as a function of the estimated detection function parameters $\bm{\hat{\theta}}$ and $\log$ing both sides yields:
 \begin{align*}
 \log\left[ \mathbb{E}(n_j) \right] &= \log\left[p_j(\bm{\hat{\theta}})A_j\right] + \sum_{k=1}^K f_k(z_{jk}), \\
 &= \log\left(A_j\right) + \log\left[p_j(\bm{\hat{\theta}})\right] + \sum_{k=1}^K f_k(z_{jk}).
@@ -94,11 +94,11 @@ In practice $N_b$ does not have to be particularly large, \cite{Marra:2011eq} ac
 
 \subsection{Calculation by the delta method}
 
-Simulation may well be unnecessary and it may well be easier and more efficient to use the delta method:
+Simulation may well be unnecessary and it may well be easier and more efficient to use a sandwich estimator:
 $$
 \left(\frac{\partial \log_e \eta}{\partial \eta} \Big{\vert}_{\eta=\hat{\eta}} \circledast \bm{X}_{p} \right) \bm{V}_{p} \left( \frac{\partial \log_e \eta}{\partial \eta} \Big{\vert}_{\eta=\hat{\eta}} \circledast \bm{X}_{p} \right)^\text{T},
 $$
-where $\frac{\partial \log_e \eta}{\partial \eta} \Big{\vert}_{\eta=\hat{\eta}}$ is the vector of derivatives of the link evaluated at the values of the linear predictor and $\circledast$ denotes \textsf{R}-style matrix-vector multiplication. The delta method inflates the variance based on the uncertainty in the linear predictor.
+where $\frac{\partial \log_e \eta}{\partial \eta} \Big{\vert}_{\eta=\hat{\eta}}$ is the vector of first derivatives of the link evaluated at the values of the linear predictor and $\circledast$ denotes \textsf{R}-style matrix-vector multiplication. A sandwich estimator inflates the variance based on the uncertainty in the linear predictor.
 
 
 \bibliography{../dsm-refs.bib}
